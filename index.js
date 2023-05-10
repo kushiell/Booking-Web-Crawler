@@ -14,15 +14,17 @@ async function test() {
 
   await locationInputElement.sendKeys(locationTx, Key.ENTER);
 
-  const imageElements = await driver.findElements(By.tagName("img"));
+  const roomListContainerElement = await driver.findElement(By.css(".d4924c9e74"))
+
+  const roomImageElements = await roomListContainerElement.findElements(By.tagName("img"));
 
   const imageUrls = await Promise.all(
-    imageElements.map(async (element) => {
+    roomImageElements.map(async (element) => {
       return await element.getAttribute("src");
     })
   );
 
-  console.log(imageUrls);
+  console.log(imageUrls.length);
 }
 
 test();
