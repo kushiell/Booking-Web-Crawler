@@ -50,8 +50,10 @@ async function main() {
         throw error;
       }
     }
-    const dropdown = await driver.findElement(
-      By.css(".hp_rt_lightbox_wrapper")
+
+    const dropdown = await driver.wait(
+      until.elementLocated(By.css(".hp_rt_lightbox_wrapper")),
+      5000
     );
 
     const smallRoomImageList = await dropdown.findElements(
@@ -60,6 +62,7 @@ async function main() {
       )
     );
 
+    console.log(smallRoomImageList.length);
   }
 
   crawlRoomInfo();
