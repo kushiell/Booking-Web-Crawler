@@ -93,7 +93,7 @@ export class CrawlerService {
       const images = await roomImageGalleryElements.findElements(
         By.tagName(`a`)
       );
-      const imageList = await Promise.all(
+      const media = await Promise.all(
         images.map(async (_i) => {
           await _i.click();
           return popupContainer
@@ -114,8 +114,8 @@ export class CrawlerService {
 
       return {
         name,
-        imageList,
-        avatar: imageList[0],
+        media: media,
+        avatar: media[0],
       };
     };
 
@@ -313,7 +313,7 @@ export class CrawlerService {
       amenities: await getAmenities(),
       around: await getAroundAmenities(),
       description: await getDescription(),
-      roomList: await getRoom(),
+      rooms: await getRoom(),
     };
   }
 }
