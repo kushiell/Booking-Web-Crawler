@@ -24,3 +24,10 @@ export function delay(milliseconds: number) {
 export const getNumberFromString = (value: string) => {
   return +value.replace(/\D/g, "");
 };
+
+
+export const filterBedType = (value: string) => {
+  if (value.includes("single-bed")) return "SINGLE_BED";
+  else if (value.includes("double-bed")) return "DOUBLE_BED";
+  return "";
+};

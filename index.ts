@@ -51,10 +51,8 @@ async function main() {
 
   const room = await crawlService.hotelInfo();
 
-  // driver.quit()
-  console.log("room", room);
-
-
+  driver.quit();
+  console.log("room", JSON.stringify(room));
 }
 
 main();

@@ -1,5 +1,5 @@
 import { By, until, WebElement, WebDriver } from "selenium-webdriver";
-import { getNumberFromString, waiting } from "../util/helpers";
+import { filterBedType, getNumberFromString, waiting } from "../util/helpers";
 
 type CrawlerConfig = {
   webdriver: WebDriver;
@@ -12,89 +12,124 @@ export class CrawlerService {
     this.driver = config.webdriver;
   }
 
-  async roomInfo(roomElement: WebElement) {
-    const popupContainer = await this.driver.findElement(
-      By.xpath('//div[@aria-labelledby="hp_rt_room_gallery_modal_room_name"]')
-    );
+  async roomInfo(roomElementContainer: WebElement) {
+    const getBed = async () => {
 
-    const roomPersonCount = await this.driver.findElement(
-      By.css(".xp__guests__count")
-    );
+      const data = await roomElementContainer
+        .findElement(By.css("div > div.d8eab2cf7f > span.c58eea6bdb"))
+        .getText();
 
-    const _adult = await roomPersonCount
-      .findElement(By.xpath('//span[@data-adults-count=""]'))
-      .getText();
-
-    const _child = await roomPersonCount
-      .findElement(By.xpath('//span[@data-children-count=""]'))
-      .getText();
-
-    const children = getNumberFromString(_child);
-    const adult = getNumberFromString(_adult);
-
-    await waiting(async () => {
-      await roomElement.click();
-    });
-
-    await waiting(async () => {
-      await this.driver?.wait(
-        until.elementLocated(
-          By.xpath(`/html/body/div[15]/div[1]/div/div[1]/div/div[1]/div/div[2]`)
-        )
+      const bedTypeElement = await roomElementContainer.findElement(
+        By.css("span.b6dc9a9e69.e6c50852bd")
       );
-    });
 
-    const roomImageGalleryElements: WebElement = await waiting(() => {
-      return popupContainer.findElement(
-        By.xpath(
-          `/html/body/div[15]/div[1]/div/div[1]/div/div[1]/div/div[2]/div`
-        )
+      const iconBedType = await bedTypeElement.getAttribute("data-testid");
+
+      const bedType = filterBedType(iconBedType);
+      const quantity = getNumberFromString(data);
+
+      return {
+        quantity: quantity,
+        bedType: bedType,
+        data,
+      };
+    };
+
+    const getCapacity = async () => {
+      const roomPersonCount = await this.driver.findElement(
+        By.css(".xp__guests__count")
       );
-    });
 
-    const images = await roomImageGalleryElements.findElements(By.tagName(`a`));
-    const imageList = await Promise.all(
-      images.map(async (_i) => {
-        await _i.click();
-        return popupContainer
-          .findElement(
+      const _adult = await roomPersonCount
+        .findElement(By.xpath('//span[@data-adults-count=""]'))
+        .getText();
+
+      const _child = await roomPersonCount
+        .findElement(By.xpath('//span[@data-children-count=""]'))
+        .getText();
+
+      const children = getNumberFromString(_child);
+      const adult = getNumberFromString(_adult);
+
+      return {
+        children,
+        adult,
+      };
+    };
+
+    const getPopupAttributtes = async () => {
+      const _roomElement = await roomElementContainer.findElement(
+        By.css(".d1c4779e7a")
+      );
+      const popupContainer = await this.driver.findElement(
+        By.xpath('//div[@aria-labelledby="hp_rt_room_gallery_modal_room_name"]')
+      );
+
+      await waiting(async () => {
+        await _roomElement.click();
+      });
+
+      await waiting(async () => {
+        await this.driver?.wait(
+          until.elementLocated(
             By.xpath(
-              "/html/body/div[15]/div[1]/div/div[1]/div/div[1]/div/div[1]/div[1]/div/div/div[3]/img"
+              `/html/body/div[15]/div[1]/div/div[1]/div/div[1]/div/div[2]`
             )
           )
-          .getAttribute("src");
-      })
-    );
+        );
+      });
 
-    const name = await popupContainer
-      .findElement(By.id("hp_rt_room_gallery_modal_room_name"))
-      .getText();
+      const name = await popupContainer
+        .findElement(By.id("hp_rt_room_gallery_modal_room_name"))
+        .getText();
 
-    await waiting(() => {
-      return popupContainer
-        .findElement(By.css(".lightbox_close_button"))
-        .click();
-    });
+      const roomImageGalleryElements: WebElement = await waiting(() => {
+        return popupContainer.findElement(
+          By.xpath(
+            `/html/body/div[15]/div[1]/div/div[1]/div/div[1]/div/div[2]/div`
+          )
+        );
+      });
+
+      const images = await roomImageGalleryElements.findElements(
+        By.tagName(`a`)
+      );
+      const imageList = await Promise.all(
+        images.map(async (_i) => {
+          await _i.click();
+          return popupContainer
+            .findElement(
+              By.xpath(
+                "/html/body/div[15]/div[1]/div/div[1]/div/div[1]/div/div[1]/div[1]/div/div/div[3]/img"
+              )
+            )
+            .getAttribute("src");
+        })
+      );
+
+      await waiting(() => {
+        return popupContainer
+          .findElement(By.css(".lightbox_close_button"))
+          .click();
+      });
+
+      return {
+        name,
+        imageList,
+        avatar: imageList[0],
+      };
+    };
 
     return {
-      name,
-      capacity: {
-        adult,
-        children,
-      },
+      ...(await getPopupAttributtes()),
+      capacity: await getCapacity(),
       price: {
         original: 0,
         normal: 0,
         weekend: 0,
         holiday: 0,
       },
-      bed: {
-        quantity: 1,
-        bedType: "",
-        data: "1 giường đôi cực lớn",
-      },
-      media: imageList,
-      avatar: imageList[0],
+      bed: await getBed(),
     };
   }
 
@@ -116,7 +151,7 @@ export class CrawlerService {
       return amenities;
     };
 
-    const getNameAndLocation = async () => {
+    const getHotelInfoAttributes = async () => {
       const container = await this.driver.findElement(
         By.xpath('//*[@id="basiclayout"]/div[1]/div[1]/div/div[2]')
       );
@@ -134,6 +169,10 @@ export class CrawlerService {
           .getText(),
       };
 
+      const rating = await container.findElements(
+        By.css("span.fbb11b26f5 > span.b6dc9a9e69")
+      );
+
       // click to open hotel media modal
       await container
         .findElement(
@@ -146,6 +185,7 @@ export class CrawlerService {
       return {
         name,
         location,
+        rating: rating.length,
       };
     };
 
@@ -185,20 +225,44 @@ export class CrawlerService {
       return media;
     };
 
+    const getDescription = async () => {
+      const container = await this.driver
+        .findElement(By.id("property_description_content"))
+        .findElements(By.tagName("p"));
+
+      const description = (
+        await Promise.all(
+          container.map(async (item) => {
+            const text = await item.getText();
+            return text;
+          })
+        )
+      )
+        .filter((item, index) => index !== 0 && item)
+        .join("\n");
+
+      return description;
+    };
+
     const getRoom = async () => {
       const roomsContainerElement: WebElement = await waiting(() => {
         return this.driver.findElement(By.css(".roomstable"));
       });
 
       const roomElement: WebElement[] = await waiting(() => {
-        return roomsContainerElement.findElements(By.css(".d1c4779e7a"));
+        return roomsContainerElement.findElements(
+          By.css("div.ed14448b9f.ccff2b4c43.cb10ca9525")
+        );
       });
 
       const roomList = [];
       for (let index = 0; index < roomElement.length; index++) {
-        const image = await waiting(() => {
-          return this.roomInfo(roomElement[index]);
-        });
+        console.log("start", index);
+
+        const image = await this.roomInfo(roomElement[index]);
+
+        console.log("finish", index);
+
         roomList.push(image);
       }
 
@@ -206,9 +270,10 @@ export class CrawlerService {
     };
 
     return {
-      ...(await getNameAndLocation()),
+      ...(await getHotelInfoAttributes()),
       media: await getHotelMedia(),
       amenities: await getAmenities(),
+      description: await getDescription(),
       roomList: await getRoom(),
     };
   }
