@@ -12,7 +12,7 @@ export class CrawlerService {
     this.driver = config.webdriver;
   }
 
-  async crawlRoomInfo(roomElement: WebElement) {
+  async roomInfo(roomElement: WebElement) {
     const popupContainer = await this.driver.findElement(
       By.xpath('//div[@aria-labelledby="hp_rt_room_gallery_modal_room_name"]')
     );
@@ -98,7 +98,10 @@ export class CrawlerService {
     };
   }
 
-  async CrawRoomList() {
+  async hotelInfo() {
+    await this.driver.get(
+      "https://www.booking.com/hotel/vn/le-house-boutique.vi.html?lang=vi"
+    );
     const roomsContainerElement: WebElement = await waiting(() => {
       return this.driver.findElement(By.css(".roomstable"));
     });
@@ -109,16 +112,10 @@ export class CrawlerService {
 
     const imageList = [];
 
-    // const image = await waiting(() => {
-    //   return this.crawlRoomInfo(roomElement[0]);
-    // });
-
     for (let index = 0; index < roomElement.length; index++) {
       const image = await waiting(() => {
-        return this.crawlRoomInfo(roomElement[index]);
+        return this.roomInfo(roomElement[index]);
       });
-
-      console.log(`[finish room :${index}]`);
 
       imageList.push(image);
     }

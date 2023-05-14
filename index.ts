@@ -15,10 +15,6 @@ async function main() {
     // .setChromeOptions(options)
     .build();
 
-  await driver.get(
-    "https://www.booking.com/hotel/vn/le-house-boutique.vi.html?lang=vi"
-  );
-
   const crawlService = new CrawlerService({ webdriver: driver });
 
   // await driver.get("https://www.booking.com");
@@ -53,7 +49,7 @@ async function main() {
   //   )
   //   .click();
 
-  const room = await crawlService.CrawRoomList();
+  const room = await crawlService.hotelInfo();
   console.log("room", room);
 }
 
