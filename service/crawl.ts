@@ -137,6 +137,13 @@ export class CrawlerService {
       "https://www.booking.com/hotel/vn/le-house-boutique.vi.html?lang=vi"
     );
 
+    const getUrl = async () => {
+      const url = await this.driver.executeScript(
+        "return window.location.href"
+      );
+      return url;
+    };
+
     const getAmenities = async () => {
       const amenitiesContainer = await this.driver.findElement(
         By.css(".e5e0727360")
@@ -308,6 +315,7 @@ export class CrawlerService {
     };
 
     return {
+      url: await getUrl(),
       ...(await getHotelInfoAttributes()),
       media: await getHotelMedia(),
       amenities: await getAmenities(),
