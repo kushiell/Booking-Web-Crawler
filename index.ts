@@ -50,7 +50,11 @@ async function main() {
   //   .click();
 
   const room = await crawlService.hotelInfo();
+
+  // driver.quit()
   console.log("room", room);
+
+
 }
 
 main();
