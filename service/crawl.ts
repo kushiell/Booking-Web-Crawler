@@ -14,7 +14,6 @@ export class CrawlerService {
 
   async roomInfo(roomElementContainer: WebElement) {
     const getBed = async () => {
-
       const data = await roomElementContainer
         .findElement(By.css("div > div.d8eab2cf7f > span.c58eea6bdb"))
         .getText();
@@ -264,10 +263,55 @@ export class CrawlerService {
       return roomList;
     };
 
+    const getAroundAmenities = async () => {
+      const aroundContainers = await this.driver
+        .findElement(
+          By.xpath("/html/body/div[2]/div/div[6]/div[1]/div[1]/div[12]")
+        )
+        .findElements(By.css("div.d31796cb42"));
+
+      const amenities = await Promise.all(
+        aroundContainers.map(async (_item) => {
+          const title = await _item
+            .findElement(By.css("div.ac78a73c96.f0d4d6a2f5.fda3b74d0d"))
+            .getText();
+
+          const itemList = await _item.findElements(
+            By.css("li.ef20942686.f514bc8c68.d4f1a1037b")
+          );
+
+          const values = await Promise.all(
+            itemList.map(async (_i) => {
+              const name = await _i
+                .findElement(By.css("div.b1e6dd8416.aacd9d0b0a"))
+                .getText();
+
+              const distance = await _i
+                .findElement(By.css("div.db29ecfbe2.c90c0a70d3"))
+                .getText();
+
+              return {
+                name,
+                distance,
+              };
+            })
+          );
+
+          return {
+            key: title,
+            values,
+          };
+        })
+      );
+
+      return amenities;
+    };
+
     return {
       ...(await getHotelInfoAttributes()),
       media: await getHotelMedia(),
       amenities: await getAmenities(),
+      around: await getAroundAmenities(),
       description: await getDescription(),
       roomList: await getRoom(),
     };
