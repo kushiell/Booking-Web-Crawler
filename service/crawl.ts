@@ -257,12 +257,7 @@ export class CrawlerService {
 
       const roomList = [];
       for (let index = 0; index < roomElement.length; index++) {
-        console.log("start", index);
-
         const image = await this.roomInfo(roomElement[index]);
-
-        console.log("finish", index);
-
         roomList.push(image);
       }
 
