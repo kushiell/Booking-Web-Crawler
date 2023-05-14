@@ -1,5 +1,5 @@
 import { By, until, WebElement, WebDriver } from "selenium-webdriver";
-import { delay, getNumberFromString, waiting } from "../util/helpers";
+import { getNumberFromString, waiting } from "../util/helpers";
 
 type CrawlerConfig = {
   webdriver: WebDriver;
@@ -134,7 +134,7 @@ export class CrawlerService {
           .getText(),
       };
 
-      // click rooms
+      // click to open hotel media modal
       await container
         .findElement(
           By.xpath(
@@ -171,7 +171,7 @@ export class CrawlerService {
         })
       );
 
-      //close popup
+      //close media modal
       await waiting(() => {
         return this.driver
           .findElement(
