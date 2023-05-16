@@ -12,6 +12,17 @@ export class CrawlerService {
     this.driver = config.webdriver;
   }
 
+  async hotelList() {
+    const hotelList = await this.driver.findElements(By.css("a.e13098a59f"));
+    const hrefList = await Promise.all(
+      hotelList.map(async (item) => {
+        return await item.getAttribute("href");
+      })
+    );
+
+    return hrefList;
+  }
+
   async roomInfo(roomElementContainer: WebElement) {
     const getBed = async () => {
       const data = await roomElementContainer
@@ -131,18 +142,13 @@ export class CrawlerService {
       bed: await getBed(),
     };
   }
+  getUrl = async () => {
+    const url = await this.driver.executeScript("return window.location.href");
+    return url;
+  };
 
-  async hotelInfo() {
-    await this.driver.get(
-      "https://www.booking.com/hotel/vn/le-house-boutique.vi.html?lang=vi"
-    );
-
-    const getUrl = async () => {
-      const url = await this.driver.executeScript(
-        "return window.location.href"
-      );
-      return url;
-    };
+  async hotelInfo(url: string) {
+    await this.driver.get(url);
 
     const getAmenities = async () => {
       const amenitiesContainer = await this.driver.findElement(
@@ -315,7 +321,7 @@ export class CrawlerService {
     };
 
     return {
-      url: await getUrl(),
+      url: await this.getUrl(),
       ...(await getHotelInfoAttributes()),
       media: await getHotelMedia(),
       amenities: await getAmenities(),
