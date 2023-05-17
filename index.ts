@@ -1,8 +1,8 @@
 import { Builder } from "selenium-webdriver";
 import { CrawlerService } from "./service/crawl";
 require("chromedriver");
-import fs from "fs/promises";
-import { writeFile } from "./util/helpers";
+import { appendResultFile, appendUrlFile, writeFile } from "./util/helpers";
+import { URLS_JSON } from "./util/contant";
 // import chrome from "selenium-webdriver/chrome";
 // const options = new chrome.Options();
 // options.addArguments("--headless");
@@ -20,20 +20,9 @@ async function main() {
   );
 
   const hrefList = await crawlService.hotelList();
-  hrefList.slice(5, 10).map(async (item) => {
+  hrefList.map(async (item) => {
     await forwardHotelUrl(item);
   });
-
-  // const room = await crawlService.hotelInfo("https://www.booking.com/hotel/vn/le-house-boutique.vi.html?lang=vi");
-
-  // console.log(room);
-
-  // try {
-  //   await fs.writeFile("result.json", JSON.stringify(room));
-  //   console.log("file written successfully");
-  // } catch (err) {
-  //   console.error(err);
-  // }
 
   driver.quit();
 }
@@ -47,11 +36,10 @@ const forwardHotelUrl = async (href: string) => {
   const crawlService = new CrawlerService({ webdriver: driver });
   try {
     const room = await crawlService.hotelInfo(href);
-    console.log(room);
+    await appendResultFile(room);
   } catch (error) {
     const url = await crawlService.getUrl();
-    await writeFile("not_crawl.json", { url });
-    console.log("url");
+    await appendUrlFile({ url, reason: error });
   }
   driver.quit();
 };

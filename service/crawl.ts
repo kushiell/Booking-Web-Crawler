@@ -1,5 +1,10 @@
 import { By, until, WebElement, WebDriver } from "selenium-webdriver";
-import { filterBedType, getNumberFromString, waiting } from "../util/helpers";
+import {
+  filterBedType,
+  getNumberFromString,
+  getNumberListFromString,
+  waiting,
+} from "../util/helpers";
 
 type CrawlerConfig = {
   webdriver: WebDriver;
@@ -46,27 +51,42 @@ export class CrawlerService {
     };
 
     const getCapacity = async () => {
-      const roomPersonCount = await waiting(async () => {
-        return await this.driver.findElement(
-          By.css("label#xp__guests__toggle>span.xp__guests__count")
-        );
-      });
+      try {
+        const roomPersonCount = await waiting(async () => {
+          return await this.driver.findElement(
+            By.css("label#xp__guests__toggle>span.xp__guests__count")
+          );
+        });
 
-      const _adult = await roomPersonCount
-        .findElement(By.xpath('//span[@data-adults-count=""]'))
-        .getText();
+        const _adult = await roomPersonCount
+          .findElement(By.xpath('//span[@data-adults-count=""]'))
+          .getText();
 
-      const _child = await roomPersonCount
-        .findElement(By.xpath('//span[@data-children-count=""]'))
-        .getText();
+        const _child = await roomPersonCount
+          .findElement(By.xpath('//span[@data-children-count=""]'))
+          .getText();
 
-      const children = getNumberFromString(_child);
-      const adult = getNumberFromString(_adult);
+        const children = getNumberFromString(_child);
+        const adult = getNumberFromString(_adult);
 
-      return {
-        children,
-        adult,
-      };
+        return {
+          children,
+          adult,
+        };
+      } catch (error) {
+        const text = await this.driver
+          .findElement(
+            By.css('.d67edddcf0>button[data-testid="occupancy-config"]')
+          )
+          .getText();
+
+        const [adult = 0, children = 0] = getNumberListFromString(text);
+
+        return {
+          children: +children,
+          adult: +adult,
+        };
+      }
     };
 
     const getPopupAttributtes = async () => {
@@ -145,8 +165,10 @@ export class CrawlerService {
     };
   }
   getUrl = async () => {
-    const url = await this.driver.executeScript("return window.location.href");
-    return url;
+    const url: string = await this.driver.executeScript(
+      "return window.location.href"
+    );
+    return url || "";
   };
 
   async hotelInfo(url: string) {
