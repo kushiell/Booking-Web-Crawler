@@ -46,9 +46,11 @@ export class CrawlerService {
     };
 
     const getCapacity = async () => {
-      const roomPersonCount = await this.driver.findElement(
-        By.css(".xp__guests__count")
-      );
+      const roomPersonCount = await waiting(async () => {
+        return await this.driver.findElement(
+          By.css("label#xp__guests__toggle>span.xp__guests__count")
+        );
+      });
 
       const _adult = await roomPersonCount
         .findElement(By.xpath('//span[@data-adults-count=""]'))

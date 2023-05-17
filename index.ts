@@ -2,6 +2,7 @@ import { Builder } from "selenium-webdriver";
 import { CrawlerService } from "./service/crawl";
 require("chromedriver");
 import fs from "fs/promises";
+import { writeFile } from "./util/helpers";
 // import chrome from "selenium-webdriver/chrome";
 // const options = new chrome.Options();
 // options.addArguments("--headless");
@@ -44,8 +45,14 @@ const forwardHotelUrl = async (href: string) => {
     .build();
 
   const crawlService = new CrawlerService({ webdriver: driver });
-  const room = await crawlService.hotelInfo(href);
-  console.log(room);
+  try {
+    const room = await crawlService.hotelInfo(href);
+    console.log(room);
+  } catch (error) {
+    const url = await crawlService.getUrl();
+    await writeFile("not_crawl.json", { url });
+    console.log("url");
+  }
   driver.quit();
 };
 
