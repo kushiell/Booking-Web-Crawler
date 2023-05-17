@@ -1,5 +1,6 @@
 import fs from "fs/promises";
 import { RESULT_JSON, URLS_JSON } from "./contant";
+import { ErrorUrl } from "./interfaces";
 export const waiting = async (cb: () => Promise<any>): Promise<any> => {
   try {
     const response = await cb();
@@ -64,14 +65,43 @@ export const appendResultFile = async (data: Object) => {
   }
   await writeFile(RESULT_JSON, fileData);
 };
-
-export const appendUrlFile = async (data: Object) => {
+2;
+export const appendErrorHotelFile = async (data: Object) => {
   let fileData: any[] = (await readFile(URLS_JSON)) || [];
+
+  const _data = {
+    id: `${Date.now()}`,
+    ...data,
+  };
+
   if (fileData?.length > 0) {
-    fileData.push(data);
+    fileData.push(_data);
   } else {
-    fileData = [data];
+    fileData = [_data];
   }
 
   await writeFile(URLS_JSON, fileData);
+};
+
+export const removeErrorHotelFile = async (id: string) => {
+  let fileData: ErrorUrl[] = (await readFile(URLS_JSON)) || [];
+
+  const removeItemIndex = fileData.findIndex((item) => item.id === id);
+  fileData.splice(removeItemIndex, 1);
+
+  return writeFile(URLS_JSON, fileData);
+};
+
+export const showResult = async () => {
+  let fileUrls: any[] = (await readFile(URLS_JSON)) || [];
+  let fileData: any[] = (await readFile(RESULT_JSON)) || [];
+
+  console.log(
+    "\n--------------------------------\n\n",
+    {
+      error: fileUrls.length,
+      success: fileData.length,
+    },
+    "\n\n--------------------------------"
+  );
 };
