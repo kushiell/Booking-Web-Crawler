@@ -16,31 +16,31 @@ import { ErrorUrl, ForwardHotelOption } from "./util/interfaces";
 // options.addArguments("--disable-gpu");
 
 async function main() {
-  let driver = await new Builder()
-    .forBrowser("chrome")
-    // .setChromeOptions(options)
-    .build();
+  // let driver = await new Builder()
+  //   .forBrowser("chrome")
+  //   // .setChromeOptions(options)
+  //   .build();
 
-  const crawlService = new CrawlerService({ webdriver: driver });
-  await driver.get(
-    "https://www.booking.com/searchresults.vi.html?label=gen173nr-1FCAso9AFCEWxlLWhvdXNlLWJvdXRpcXVlSCpYBGj0AYgBAZgBKrgBB8gBDNgBAegBAfgBA4gCAagCA7gCgoGNowbAAgHSAiRiZGEyYjQwZS0wZDJkLTRhZjAtYTBjOS1jMTYyYTIxYjQwZjTYAgXgAgE&sid=9877ff36c762b674ae137dadb728fc0e&aid=304142&dest_id=-3723998&dest_type=city&group_adults=null&req_adults=null&no_rooms=null&group_children=null&req_children=null"
-  );
+  // const crawlService = new CrawlerService({ webdriver: driver });
+  // await driver.get(
+  //   "https://www.booking.com/searchresults.vi.html?label=gen173nr-1FCAso9AFCEWxlLWhvdXNlLWJvdXRpcXVlSCpYBGj0AYgBAZgBKrgBB8gBDNgBAegBAfgBA4gCAagCA7gCgoGNowbAAgHSAiRiZGEyYjQwZS0wZDJkLTRhZjAtYTBjOS1jMTYyYTIxYjQwZjTYAgXgAgE&sid=9877ff36c762b674ae137dadb728fc0e&aid=304142&dest_id=-3723998&dest_type=city&group_adults=null&req_adults=null&no_rooms=null&group_children=null&req_children=null"
+  // );
 
-  const hrefList = await crawlService.hotelList();
-  driver.quit();
+  // const hrefList = await crawlService.hotelList();
 
-  await Promise.all(
-    hrefList.map((item) => {
-      return forwardHotelUrl(item, {
-        onFail: async (error) => {
-          const url = await crawlService.getUrl();
-          await appendHotelFile({ url, reason: error.name });
-        },
-      });
-    })
-  );
+  // await Promise.all(
+  //   hrefList.map((item) => {
+  //     return forwardHotelUrl(item, {
+  //       onFail: async (error) => {
+  //         const url = await crawlService.getUrl();
+  //         await appendHotelFile({ url, reason: error.name });
+  //       },
+  //     });
+  //   })
+  // );
 
   await crawlHotelError();
+  // driver.quit();
 
   showResult();
 }
