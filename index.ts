@@ -10,6 +10,11 @@ import {
 } from "./util/helpers";
 import { URLS_JSON } from "./util/contant";
 import { ErrorUrl, ForwardHotelOption } from "./util/interfaces";
+import {
+  crawlHotelError,
+  forwardHotelUrl,
+  testErrorHotel,
+} from "./service/hotel";
 // import chrome from "selenium-webdriver/chrome";
 // const options = new chrome.Options();
 // options.addArguments("--headless");
@@ -31,9 +36,8 @@ async function main() {
   // await Promise.all(
   //   hrefList.map((item) => {
   //     return forwardHotelUrl(item, {
-  //       onFail: async (error) => {
-  //         const url = await crawlService.getUrl();
-  //         await appendHotelFile({ url, reason: error.name });
+  //       onFail: async (error, href) => {
+  //         await appendHotelFile({ url: href, reason: error.name });
   //       },
   //     });
   //   })
@@ -41,42 +45,10 @@ async function main() {
 
   await crawlHotelError();
   // driver.quit();
-
+  //  await testErrorHotel("1684386032583");
   showResult();
 }
 
-const crawlHotelError = async () => {
-  const errorUrls: ErrorUrl[] = (await readFile(URLS_JSON)) || [];
 
-  await Promise.all(
-    errorUrls.map((_i) => {
-      return (
-        _i.url &&
-        forwardHotelUrl(_i.url, {
-          onSuccess: async () => {
-            await removeErrorHotelFile(_i.id);
-          },
-        })
-      );
-    })
-  );
-};
-
-const forwardHotelUrl = async (href: string, option?: ForwardHotelOption) => {
-  let driver = await new Builder()
-    .forBrowser("chrome")
-    // .setChromeOptions(options)
-    .build();
-
-  const crawlService = new CrawlerService({ webdriver: driver });
-  try {
-    const room = await crawlService.hotelInfo(href);
-    await appendResultFile(room);
-    option?.onSuccess && (await option?.onSuccess?.());
-  } catch (error: any) {
-    option?.onFail && (await option?.onFail?.(error));
-  }
-  driver.quit();
-};
 
 main();

@@ -1,10 +1,15 @@
 export interface ErrorUrl {
-  name: string;
+  reason: string;
   url?: string;
   id: string;
 }
 
 export interface ForwardHotelOption {
   onSuccess?: () => void;
-  onFail?: (error: any) => void;
+  onFail?: (error: any, href: string) => void;
+}
+
+export enum ErrorType {
+  ElementNotInteractableError = "ElementNotInteractableError",
+  NoSuchElementError = "NoSuchElementError",
 }

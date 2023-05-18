@@ -251,8 +251,8 @@ export class CrawlerService {
       await waiting(() => {
         return this.driver
           .findElement(
-            By.xpath(
-              "/html/body/div[2]/div/div[6]/div[1]/div[1]/div[1]/div/div[2]/div[11]/div/div/div[3]/div[1]/div[3]/button"
+            By.css(
+              "button.bui-button.bui-button--light.bh-photo-modal-close.bh-no-user-select"
             )
           )
           .click();
@@ -301,11 +301,9 @@ export class CrawlerService {
     };
 
     const getAroundAmenities = async () => {
-      const aroundContainers = await this.driver
-        .findElement(
-          By.xpath("/html/body/div[2]/div/div[6]/div[1]/div[1]/div[12]")
-        )
-        .findElements(By.css("div.d31796cb42"));
+      const aroundContainers = await this.driver.findElements(
+        By.css("div.d31796cb42")
+      );
 
       const amenities = await Promise.all(
         aroundContainers.map(async (_item) => {
