@@ -19,3 +19,10 @@ export enum ErrorType {
 export interface WaitingOption {
   error?: (error: any) => void;
 }
+
+export interface Config {
+  pageOffset: number;
+  page: number;
+  pageLength: number;
+  url: string;
+}
