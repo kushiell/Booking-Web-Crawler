@@ -43,12 +43,11 @@ async function main() {
   //   })
   // );
 
-  await crawlHotelError();
+  // await crawlHotelError();
+  await testErrorHotel("1684386090604");
   // driver.quit();
   //  await testErrorHotel("1684386032583");
   showResult();
 }
-
-
 
 main();

@@ -12,4 +12,10 @@ export interface ForwardHotelOption {
 export enum ErrorType {
   ElementNotInteractableError = "ElementNotInteractableError",
   NoSuchElementError = "NoSuchElementError",
+  TimeoutError = "TimeoutError",
+  StaleElementReferenceError = "StaleElementReferenceError",
+}
+
+export interface WaitingOption {
+  error?: (error: any) => void;
 }

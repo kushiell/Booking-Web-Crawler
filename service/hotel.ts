@@ -5,7 +5,7 @@ import {
   removeErrorHotelFile,
   appendResultFile,
 } from "../util/helpers";
-import { ErrorType, ErrorUrl, ForwardHotelOption } from "../util/interfaces";
+import { ErrorUrl, ForwardHotelOption } from "../util/interfaces";
 import { CrawlerService } from "./crawl";
 
 export const crawlHotelError = async () => {
@@ -13,7 +13,7 @@ export const crawlHotelError = async () => {
 
   await Promise.all(
     errorUrls
-    //   .filter((item) => item.reason === ErrorType.ElementNotInteractableError)
+      //   .filter((item) => item.reason === ErrorType.ElementNotInteractableError)
       .map((_i) => {
         return (
           _i.url &&
@@ -39,10 +39,13 @@ export const testErrorHotel = async (id: string) => {
 
   const crawlService = new CrawlerService({ webdriver: driver });
   const room = await crawlService.hotelInfo(_url);
+
   if (room) {
     await appendResultFile(room);
     await removeErrorHotelFile(id);
   }
+
+  driver.quit();
 };
 
 export const forwardHotelUrl = async (

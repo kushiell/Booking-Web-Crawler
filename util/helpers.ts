@@ -1,19 +1,25 @@
 import fs from "fs/promises";
 import { RESULT_JSON, URLS_JSON } from "./contant";
-import { ErrorUrl } from "./interfaces";
-export const waiting = async (cb: () => Promise<any>): Promise<any> => {
+import { ErrorType, ErrorUrl, WaitingOption } from "./interfaces";
+
+export const waiting = async (
+  cb: () => Promise<any>,
+  option?: WaitingOption
+): Promise<any> => {
   try {
     const response = await cb();
     return response;
   } catch (error: any) {
-    if (error.name === "StaleElementReferenceError") {
-      const response = await waiting(() => {
-        return cb();
-      });
-
-      return response;
-    } else {
-      throw error;
+    switch (error.name) {
+      case ErrorType.StaleElementReferenceError: {
+        const response = await waiting(() => {
+          return cb();
+        });
+        return response;
+      }
+      default: {
+        option?.error?.(error);
+      }
     }
   }
 };

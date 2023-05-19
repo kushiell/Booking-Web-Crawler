@@ -100,44 +100,54 @@ export class CrawlerService {
       await waiting(async () => {
         await _roomElement.click();
       });
+      let hasRoom = true;
 
-      await waiting(async () => {
-        await this.driver?.wait(
-          until.elementLocated(
-            By.xpath(
-              `/html/body/div[15]/div[1]/div/div[1]/div/div[1]/div/div[2]`
-            )
-          )
-        );
-      });
+      await waiting(
+        async () => {
+          await this.driver?.wait(
+            until.elementLocated(
+              By.xpath(
+                `/html/body/div[15]/div[1]/div/div[1]/div/div[1]/div/div[2]`
+              )
+            ),
+            2000
+          );
+        },
+        {
+          error: () => {
+            hasRoom = false;
+          },
+        }
+      );
 
       const name = await popupContainer
         .findElement(By.id("hp_rt_room_gallery_modal_room_name"))
         .getText();
 
-      const roomImageGalleryElements: WebElement = await waiting(() => {
-        return popupContainer.findElement(
-          By.xpath(
-            `/html/body/div[15]/div[1]/div/div[1]/div/div[1]/div/div[2]/div`
-          )
-        );
-      });
+      let media: string[] = [];
 
-      const images = await roomImageGalleryElements.findElements(
-        By.tagName(`a`)
-      );
-      const media = await Promise.all(
-        images.map(async (_i) => {
-          await _i.click();
-          return popupContainer
-            .findElement(
-              By.xpath(
-                "/html/body/div[15]/div[1]/div/div[1]/div/div[1]/div/div[1]/div[1]/div/div/div[3]/img"
-              )
+      if (hasRoom) {
+        const roomImageGalleryElements: WebElement = await waiting(() => {
+          return popupContainer.findElement(
+            By.xpath(
+              `/html/body/div[15]/div[1]/div/div[1]/div/div[1]/div/div[2]/div`
             )
-            .getAttribute("src");
-        })
-      );
+          );
+        });
+
+        const images = await roomImageGalleryElements.findElements(
+          By.tagName(`a`)
+        );
+        media = await Promise.all(
+          images.map(async (_i) => {
+            await _i.click();
+
+            return popupContainer
+              .findElement(By.css("div.slick-slide.slick-active > img"))
+              .getAttribute("src");
+          })
+        );
+      }
 
       await waiting(() => {
         return popupContainer
@@ -164,6 +174,7 @@ export class CrawlerService {
       bed: await getBed(),
     };
   }
+
   getUrl = async () => {
     const url: string = await this.driver.executeScript(
       "return window.location.href"
@@ -212,8 +223,8 @@ export class CrawlerService {
       // click to open hotel media modal
       await container
         .findElement(
-          By.xpath(
-            '//*[@id="hotel_main_content"]/div/div[1]/div[6]/div/div[5]/a'
+          By.css(
+            "a.bh-photo-grid-item.bh-photo-grid-thumb.js-bh-photo-grid-item-see-all"
           )
         )
         .click();
