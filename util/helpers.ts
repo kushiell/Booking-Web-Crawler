@@ -1,6 +1,6 @@
 import fs from "fs/promises";
-import { RESULT_JSON, URLS_JSON } from "./contant";
-import { ErrorType, ErrorUrl, WaitingOption } from "./interfaces";
+import { CONFIG_JSON, RESULT_JSON, URLS_JSON } from "./contant";
+import { Config, ErrorType, ErrorUrl, WaitingOption } from "./interfaces";
 
 export const waiting = async (
   cb: () => Promise<any>,
@@ -71,7 +71,7 @@ export const appendResultFile = async (data: Object) => {
   }
   await writeFile(RESULT_JSON, fileData);
 };
-2;
+
 export const appendErrorHotelFile = async (data: Object) => {
   let fileData: any[] = (await readFile(URLS_JSON)) || [];
 
@@ -110,4 +110,8 @@ export const showResult = async () => {
     },
     "\n\n--------------------------------"
   );
+};
+
+export const writeFileConfig = async (value: Config) => {
+  await writeFile(CONFIG_JSON, value);
 };

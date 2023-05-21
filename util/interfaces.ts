@@ -21,8 +21,8 @@ export interface WaitingOption {
 }
 
 export interface Config {
-  pageOffset: number;
-  page: number;
-  pageLength: number;
+  pageOffset: string;
+  currentPage: string;
+  pageLength: string;
   url: string;
 }

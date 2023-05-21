@@ -11,7 +11,7 @@ type CrawlerConfig = {
 };
 
 export class CrawlerService {
-  private driver: WebDriver;
+  driver: WebDriver;
 
   constructor(config: CrawlerConfig) {
     this.driver = config.webdriver;
