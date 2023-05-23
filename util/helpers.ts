@@ -92,6 +92,7 @@ export const appendErrorHotelFile = async (data: Object) => {
 
   const _data = {
     id: `${Date.now()}`,
+    try: 0,
     ...data,
   };
 
@@ -102,6 +103,36 @@ export const appendErrorHotelFile = async (data: Object) => {
   }
 
   await writeFile(URLS_JSON, fileData);
+};
+export const inscreaseErrorHotelFile = async (data: Object) => {
+  let fileData: any[] = (await readFile(URLS_JSON)) || [];
+
+  const _data = {
+    id: `${Date.now()}`,
+    try: 0,
+    ...data,
+  };
+
+  if (fileData?.length > 0) {
+    fileData.push(_data);
+  } else {
+    fileData = [_data];
+  }
+
+  await writeFile(URLS_JSON, fileData);
+};
+
+export const handleErrorHotelFile = async () => {
+  let fileData: ErrorUrl[] = (await readFile(URLS_JSON)) || [];
+
+  const newErrorList: ErrorUrl[] = fileData.map((item) => {
+    return {
+      ...item,
+      try: `${+item.try + 1 || 0}`,
+    };
+  });
+
+  await writeFile(URLS_JSON, newErrorList);
 };
 
 export const removeErrorHotelFile = async (id: string) => {

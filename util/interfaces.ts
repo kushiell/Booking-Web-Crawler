@@ -1,7 +1,8 @@
 export interface ErrorUrl {
   reason: string;
-  url?: string;
+  url: string;
   id: string;
+  try: string
 }
 
 export interface ForwardHotelOption {

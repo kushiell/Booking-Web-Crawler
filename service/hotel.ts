@@ -1,5 +1,5 @@
 import { Builder } from "selenium-webdriver";
-import { URLS_JSON } from "../util/contant";
+import { ERROR_TRY_COUNT_MAX, URLS_JSON } from "../util/contant";
 import {
   readFile,
   removeErrorHotelFile,
@@ -13,7 +13,7 @@ export const crawlHotelError = async () => {
 
   await Promise.all(
     errorUrls
-      //   .filter((item) => item.reason === ErrorType.ElementNotInteractableError)
+      .filter((item) => +item.try < ERROR_TRY_COUNT_MAX)
       .map((_i) => {
         return (
           _i.url &&

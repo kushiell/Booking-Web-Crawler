@@ -91,7 +91,7 @@ export class CrawlerService {
 
     const getPopupAttributtes = async () => {
       const _roomElement = await roomElementContainer.findElement(
-        By.css(".d1c4779e7a")
+        By.css("a.d1c4779e7a")
       );
       const popupContainer = await this.driver.findElement(
         By.xpath('//div[@aria-labelledby="hp_rt_room_gallery_modal_room_name"]')
@@ -110,7 +110,7 @@ export class CrawlerService {
                 `/html/body/div[15]/div[1]/div/div[1]/div/div[1]/div/div[2]`
               )
             ),
-            2000
+            5000
           );
         },
         {
@@ -119,10 +119,6 @@ export class CrawlerService {
           },
         }
       );
-
-      const name = await popupContainer
-        .findElement(By.id("hp_rt_room_gallery_modal_room_name"))
-        .getText();
 
       let media: string[] = [];
 
@@ -149,19 +145,27 @@ export class CrawlerService {
         );
       }
 
+      const titleCss = By.css("h1.rt-lightbox-title");
+
+      let name = await popupContainer.findElement(titleCss).getText();
+
       await waiting(() => {
         return popupContainer
           .findElement(By.css(".lightbox_close_button"))
           .click();
       });
 
+      if (!name) {
+        name = await roomElementContainer
+          .findElement(By.css("a > span"))
+          .getText();
+      }
       return {
         name,
         media: media,
         avatar: media[0],
       };
     };
-
     return {
       ...(await getPopupAttributtes()),
       capacity: await getCapacity(),
@@ -304,8 +308,13 @@ export class CrawlerService {
 
       const roomList = [];
       for (let index = 0; index < roomElement.length; index++) {
-        const image = await this.roomInfo(roomElement[index]);
-        roomList.push(image);
+        try {
+          await roomElement[index].findElement(By.css("a.d1c4779e7a"));
+          const image = await this.roomInfo(roomElement[index]);
+          roomList.push(image);
+        } catch (error) {
+          console.log("Error Room", error);
+        }
       }
 
       return roomList;
