@@ -1,8 +1,8 @@
 import { showResult } from "./util/helpers";
-import { crawHotelPage } from "./service/page";
+import { crawlHotelLocation } from "./service/location";
 
 async function main() {
-  await crawHotelPage();
+  await crawlHotelLocation();
   showResult();
 }
 

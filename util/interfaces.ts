@@ -18,6 +18,7 @@ export enum ErrorType {
 
 export interface WaitingOption {
   error?: (error: any) => void;
+  retryCount?: number
 }
 
 export interface Config {

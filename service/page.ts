@@ -83,19 +83,17 @@ class CrawlPage extends CrawlerService {
     await Promise.all(
       pagePaginationContainerList.map(async (item) => {
         await waiting(async () => {
-          console.log("okx");
-
           await item.click();
 
-          const css = By.css(`div.eff4755744.bf8641a42d`);
+          const css = By.css(`div.ba1f26500a.a18ca6a206.abea3a9d71.c8b48968a2`);
 
           await this.driver?.wait(until.elementLocated(css), 5000);
 
-          const ab = await this.driver.findElement(css)
+          const ab = await this.driver.findElement(css);
 
           await this.driver?.wait(until.elementIsNotVisible(ab), 5000);
 
-          console.log("ok",await ab.getTagName());
+          console.log("ok", await ab.getTagName());
 
           await this.hotelPageSlice();
         });

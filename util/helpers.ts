@@ -1,5 +1,10 @@
 import fs from "fs/promises";
-import { CONFIG_JSON, RESULT_JSON, URLS_JSON } from "./contant";
+import {
+  CONFIG_JSON,
+  RESULT_JSON,
+  RETRY_FOUND_ELEMENT,
+  URLS_JSON,
+} from "./contant";
 import { Config, ErrorType, ErrorUrl, WaitingOption } from "./interfaces";
 
 export const waiting = async (
@@ -12,9 +17,18 @@ export const waiting = async (
   } catch (error: any) {
     switch (error.name) {
       case ErrorType.StaleElementReferenceError: {
-        const response = await waiting(() => {
-          return cb();
-        });
+        const { retryCount = RETRY_FOUND_ELEMENT } = option || {};
+        const _retryCount = retryCount - 1;
+        let response = null;
+        if (_retryCount > 0) {
+          response = await waiting(
+            () => {
+              return cb();
+            },
+            { retryCount: _retryCount }
+          );
+        }
+
         return response;
       }
       default: {
