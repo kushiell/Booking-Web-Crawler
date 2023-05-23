@@ -1,8 +1,12 @@
-import { showResult } from "./util/helpers";
+import { fileLocationList, showResult } from "./util/helpers";
 import { crawlHotelLocation } from "./service/location";
 
 async function main() {
-  await crawlHotelLocation();
+  let locations = await fileLocationList();
+  if (!locations?.length) {
+    locations = await crawlHotelLocation();
+  }
+
   showResult();
 }
 

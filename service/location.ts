@@ -21,4 +21,6 @@ export const crawlHotelLocation = async () => {
   await writeFile(LOCATION_JSON, hrefList);
 
   driver.quit();
+
+  return hrefList
 };

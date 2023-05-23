@@ -1,6 +1,7 @@
 import fs from "fs/promises";
 import {
   CONFIG_JSON,
+  LOCATION_JSON,
   RESULT_JSON,
   RETRY_FOUND_ELEMENT,
   URLS_JSON,
@@ -128,4 +129,9 @@ export const showResult = async () => {
 
 export const writeFileConfig = async (value: Config) => {
   await writeFile(CONFIG_JSON, value);
+};
+
+export const fileLocationList = async () => {
+  const locations = (await readFile(LOCATION_JSON)) as string[];
+  return locations;
 };
