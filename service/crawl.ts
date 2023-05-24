@@ -308,12 +308,16 @@ export class CrawlerService {
 
       const roomList = [];
       for (let index = 0; index < roomElement.length; index++) {
+        let clicked = false;
         try {
           await roomElement[index].findElement(By.css("a.d1c4779e7a"));
+          clicked = true;
+        } catch (error) {
+          clicked = false;
+        }
+        if (clicked) {
           const image = await this.roomInfo(roomElement[index]);
           roomList.push(image);
-        } catch (error) {
-          console.log("Error Room", error);
         }
       }
 

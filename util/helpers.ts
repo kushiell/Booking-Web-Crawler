@@ -166,3 +166,8 @@ export const fileLocationList = async () => {
   const locations = (await readFile(LOCATION_JSON)) as string[];
   return locations;
 };
+
+export const getConfig = async () => {
+  const config: Config = (await readFile(CONFIG_JSON)) || {};
+  return config;
+};
