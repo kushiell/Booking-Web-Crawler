@@ -79,30 +79,15 @@ class CrawlPage extends CrawlerService {
         pageOffset: `${page}`,
       });
 
-      const crawlHotelCount = {
-        success: 0,
-        error: 0,
-      };
-      try {
-        await Promise.all(
-          hrefList.slice(start, end).map((item) => {
-            return forwardHotelUrl(item, {
-              onFail: async (error, href) => {
-                await appendErrorHotelFile({ url: href, reason: error.name });
-                crawlHotelCount.error = crawlHotelCount.error + 1;
-              },
-              onSuccess: () => {
-                crawlHotelCount.success = crawlHotelCount.success + 1;
-              },
-            });
-          })
-        );
-      } catch (error: any) {
-        if (error.name === "WebDriverError") {
-          console.log("crawlHotelSuccess", crawlHotelCount);
-          console.log("oke");
-        }
-      }
+      await Promise.all(
+        hrefList.slice(start, end).map((item) => {
+          return forwardHotelUrl(item, {
+            onFail: async (error, href) => {
+              await appendErrorHotelFile({ url: href, reason: error.name });
+            },
+          });
+        })
+      );
     }
 
     await crawlHotelError();

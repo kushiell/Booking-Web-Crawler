@@ -27,7 +27,7 @@ export const crawlHotelError = async () => {
   );
 };
 
-export const testErrorHotel = async (id: string) => {
+export const testErrorHotel = async (id: string, remove?: boolean) => {
   const errorUrls: ErrorUrl[] = (await readFile(URLS_JSON)) || [];
   const index = errorUrls.findIndex((item) => item.id === id);
   const _url = errorUrls[index]?.url || "";
@@ -40,7 +40,7 @@ export const testErrorHotel = async (id: string) => {
   const crawlService = new CrawlerService({ webdriver: driver });
   const room = await crawlService.hotelInfo(_url);
 
-  if (room) {
+  if (room && remove) {
     await appendResultFile(room);
     await removeErrorHotelFile(id);
   }

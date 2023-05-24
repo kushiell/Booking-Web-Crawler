@@ -110,7 +110,7 @@ export class CrawlerService {
                 `/html/body/div[15]/div[1]/div/div[1]/div/div[1]/div/div[2]`
               )
             ),
-            5000
+            2000
           );
         },
         {
@@ -143,6 +143,35 @@ export class CrawlerService {
               .getAttribute("src");
           })
         );
+      } else {
+        try {
+          const roomImageGalleryElements: WebElement = await waiting(() => {
+            return popupContainer.findElement(
+              By.css(`div.b_nha_hotel_small_images`)
+            );
+          });
+
+          const images = await roomImageGalleryElements?.findElements?.(
+            By.tagName(`a`)
+          );
+          if (images) {
+            media = await Promise.all(
+              images.map(async (_i) => {
+                await _i.click();
+
+                return popupContainer
+                  .findElement(By.css("div.slick-slide.slick-active > img"))
+                  .getAttribute("src");
+              })
+            );
+          } else {
+            await this.driver
+              .findElement(By.css("div.hp_rt_lightbox_overlay.visible"))
+              .click();
+          }
+        } catch (error) {
+          throw error;
+        }
       }
 
       const titleCss = By.css("h1.rt-lightbox-title");
@@ -203,9 +232,18 @@ export class CrawlerService {
     };
 
     const getHotelInfoAttributes = async () => {
-      const container = await this.driver.findElement(
-        By.xpath('//*[@id="basiclayout"]/div[1]/div[1]/div/div[2]')
-      );
+      let container: WebElement;
+      try {
+        container = await this.driver.findElement(
+          By.xpath('//*[@id="basiclayout"]/div[1]/div[1]/div/div[2]')
+        );
+      } catch (error) {
+        container = await this.driver.findElement(
+          By.css(
+            "div.k2-hp--gallery-header.bui-grid__column.bui-grid__column-9"
+          )
+        );
+      }
 
       const name = await container
         .findElement(By.css(".pp-header__title"))
@@ -241,15 +279,23 @@ export class CrawlerService {
     };
 
     const getHotelMedia = async () => {
-      const gallery = await this.driver.findElement(
-        By.css(
-          "#hotel_main_content > div > div.bh-photo-modal.bh-photo-modal--side-panel.opened > div.bh-photo-modal-thumbs-grid.js-bh-photo-modal-layout.js-no-close"
-        )
-      );
+      const css2 =
+        "div.bh-photo-modal-thumbs-grid.js-bh-photo-modal-layout.js-no-close";
+      const css1 =
+        "#hotel_main_content > div > div.bh-photo-modal.bh-photo-modal--side-panel.opened > div.bh-photo-modal-thumbs-grid.js-bh-photo-modal-layout.js-no-close";
 
-      await this.driver.executeScript(
-        `document.querySelector('#hotel_main_content > div > div.bh-photo-modal.bh-photo-modal--side-panel.opened > div.bh-photo-modal-thumbs-grid.js-bh-photo-modal-layout.js-no-close').scrollTo(0,Number.MAX_SAFE_INTEGER)`
-      );
+      let gallery: WebElement;
+      try {
+        gallery = await this.driver.findElement(By.css(css1));
+        await this.driver.executeScript(
+          `document.querySelector('${css1}').scrollTo(0,Number.MAX_SAFE_INTEGER)`
+        );
+      } catch (error) {
+        gallery = await this.driver.findElement(By.css(css2));
+        await this.driver.executeScript(
+          `document.querySelector('${css2}').scrollTo(0,Number.MAX_SAFE_INTEGER)`
+        );
+      }
 
       const hotelImageList = await gallery.findElements(
         By.css(".bh-photo-modal-grid-item-wrapper")
