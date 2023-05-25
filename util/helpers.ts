@@ -73,10 +73,9 @@ export const readFile = async (fileName: string, log?: boolean) => {
     const _data = JSON.parse(data);
     return _data;
   } catch (error) {
-    console.error("[READ_FILE]", error);
     if (log) {
-      const data = await fs.readFile(fileName, "utf8");
-      console.log(data);
+      console.error("[READ_FILE]", error);
+      throw error;
     }
   }
 };

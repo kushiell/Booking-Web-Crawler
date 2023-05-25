@@ -296,13 +296,23 @@ export class CrawlerService {
             )
             .click();
         } catch (error) {
-          await container
-            .findElement(
-              By.css(
-                "a.bh-photo-grid-item.bh-photo-grid-photo1.active-image.bh-photo-grid-photo1-s-half.bh-photo-grid-photo1-s-half-left"
+          try {
+            await container
+              .findElement(
+                By.css(
+                  "a.bh-photo-grid-item.bh-photo-grid-photo1.active-image.bh-photo-grid-photo1-s-half.bh-photo-grid-photo1-s-half-left"
+                )
               )
-            )
-            .click();
+              .click();
+          } catch (error) {
+            await container
+              .findElement(
+                By.css(
+                  "a.bh-photo-grid-item.bh-photo-grid-side-photo.bh-photo-grid-side-photo--side.bh-photo-grid-side-photo--side-half.active-image"
+                )
+              )
+              .click();
+          }
         }
       }
 
