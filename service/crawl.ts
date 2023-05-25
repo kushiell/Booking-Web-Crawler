@@ -121,6 +121,7 @@ export class CrawlerService {
       );
 
       let media: string[] = [];
+      let name = "";
 
       if (hasRoom) {
         const roomImageGalleryElements: WebElement = await waiting(() => {
@@ -165,24 +166,29 @@ export class CrawlerService {
               })
             );
           } else {
-            await this.driver
-              .findElement(By.css("div.hp_rt_lightbox_overlay.visible"))
-              .click();
+            await this.driver.executeScript(
+              `document.getElementsByClassName("lightbox_close_button")[0].click()`
+            );
           }
         } catch (error) {
           throw error;
         }
       }
+      try {
+        const titleCss = By.css("h1.rt-lightbox-title");
 
-      const titleCss = By.css("h1.rt-lightbox-title");
-
-      let name = await popupContainer.findElement(titleCss).getText();
+        name = await popupContainer.findElement(titleCss).getText();
+      } catch (error) {}
 
       await waiting(() => {
         return popupContainer
           .findElement(By.css(".lightbox_close_button"))
           .click();
       });
+
+      await this.driver.executeScript(
+        `document.getElementsByClassName("lightbox_close_button")[0].click()`
+      );
 
       if (!name) {
         name = await roomElementContainer
@@ -219,9 +225,16 @@ export class CrawlerService {
     await this.driver.get(url);
 
     const getAmenities = async () => {
-      const amenitiesContainer = await this.driver.findElement(
-        By.css(".e5e0727360")
-      );
+      let amenitiesContainer: WebElement;
+      try {
+        amenitiesContainer = await this.driver.findElement(
+          By.css(".e5e0727360")
+        );
+      } catch (error) {
+        amenitiesContainer = await this.driver.findElement(
+          By.css(".e50d7535fa")
+        );
+      }
 
       const amenities = await Promise.all(
         (
@@ -263,13 +276,33 @@ export class CrawlerService {
       );
 
       // click to open hotel media modal
-      await container
-        .findElement(
-          By.css(
-            "a.bh-photo-grid-item.bh-photo-grid-thumb.js-bh-photo-grid-item-see-all"
+      try {
+        await container
+          .findElement(
+            By.css(
+              "a.bh-photo-grid-item.bh-photo-grid-thumb.js-bh-photo-grid-item-see-all"
+            )
           )
-        )
-        .click();
+          .click();
+      } catch (error) {
+        try {
+          await container
+            .findElement(
+              By.css(
+                "a.bh-photo-grid-item.bh-photo-grid-photo1.active-image.bh-photo-grid-photo-cover"
+              )
+            )
+            .click();
+        } catch (error) {
+          await container
+            .findElement(
+              By.css(
+                "a.bh-photo-grid-item.bh-photo-grid-photo1.active-image.bh-photo-grid-photo1-s-half.bh-photo-grid-photo1-s-half-left"
+              )
+            )
+            .click();
+        }
+      }
 
       return {
         name,
@@ -387,9 +420,24 @@ export class CrawlerService {
 
           const values = await Promise.all(
             itemList.map(async (_i) => {
-              const name = await _i
-                .findElement(By.css("div.b1e6dd8416.aacd9d0b0a"))
-                .getText();
+              const nameContainer = await _i.findElement(
+                By.css("div.b1e6dd8416.aacd9d0b0a")
+              );
+              let prefixName = "";
+
+              console.log();
+
+              try {
+                prefixName = await nameContainer
+                  .findElement(By.css("span.b6f930dcc9"))
+                  .getText();
+              } catch (error) {}
+
+              let name = await nameContainer.getText();
+
+              if (prefixName) {
+                name = name.replace(prefixName, prefixName + " ");
+              }
 
               const distance = await _i
                 .findElement(By.css("div.db29ecfbe2.c90c0a70d3"))

@@ -39,6 +39,9 @@ export const testErrorHotel = async (id: string, remove?: boolean) => {
 
   const crawlService = new CrawlerService({ webdriver: driver });
   const room = await crawlService.hotelInfo(_url);
+  if (!remove) {
+    console.log(JSON.stringify(room));
+  }
 
   if (room && remove) {
     await appendResultFile(room);

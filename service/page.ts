@@ -65,7 +65,7 @@ class CrawlPage extends CrawlerService {
   async hotelPageSlice() {
     const hrefList = await this.hotelList();
 
-    const ITEM_SLICE_NUMBER = 5;
+    const ITEM_SLICE_NUMBER = 10;
     const config = await getConfig();
     const pageOffset = +(config?.pageOffset || "0");
     const total = hrefList.length / ITEM_SLICE_NUMBER;

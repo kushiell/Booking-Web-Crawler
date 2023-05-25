@@ -10,4 +10,4 @@ export const RETRY_FOUND_ELEMENT = 10;
 
 export const HOTEL_PER_PAGE = 25;
 
-export const ERROR_TRY_COUNT_MAX = 5
+export const ERROR_TRY_COUNT_MAX = 3
