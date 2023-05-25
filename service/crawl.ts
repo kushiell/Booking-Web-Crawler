@@ -30,18 +30,20 @@ export class CrawlerService {
 
   async roomInfo(roomElementContainer: WebElement) {
     const getBed = async () => {
-      const data = await roomElementContainer
-        .findElement(By.css("div > div.d8eab2cf7f > span.c58eea6bdb"))
-        .getText();
-
-      const bedTypeElement = await roomElementContainer.findElement(
-        By.css("span.b6dc9a9e69.e6c50852bd")
-      );
-
-      const iconBedType = await bedTypeElement.getAttribute("data-testid");
-
-      const bedType = filterBedType(iconBedType);
-      const quantity = getNumberFromString(data);
+      let data = "";
+      let quantity = 0;
+      let bedType = "";
+      try {
+        data = await roomElementContainer
+          .findElement(By.css("div > div.d8eab2cf7f > span.c58eea6bdb"))
+          .getText();
+        const bedTypeElement = await roomElementContainer.findElement(
+          By.css("span.b6dc9a9e69.e6c50852bd")
+        );
+        const iconBedType = await bedTypeElement.getAttribute("data-testid");
+        bedType = filterBedType(iconBedType);
+        quantity = getNumberFromString(data);
+      } catch (error) {}
 
       return {
         quantity: quantity,
@@ -424,8 +426,6 @@ export class CrawlerService {
                 By.css("div.b1e6dd8416.aacd9d0b0a")
               );
               let prefixName = "";
-
-              console.log();
 
               try {
                 prefixName = await nameContainer
