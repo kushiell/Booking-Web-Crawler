@@ -67,18 +67,22 @@ export const writeFile = async (fileName: string, value: Object) => {
   }
 };
 
-export const readFile = async (fileName: string) => {
+export const readFile = async (fileName: string, log?: boolean) => {
   try {
     const data = await fs.readFile(fileName, "utf8");
     const _data = JSON.parse(data);
     return _data;
   } catch (error) {
     console.error("[READ_FILE]", error);
+    if (log) {
+      const data = await fs.readFile(fileName, "utf8");
+      console.log(data);
+    }
   }
 };
 
 export const appendResultFile = async (data: Object) => {
-  let fileData: any[] = (await readFile(RESULT_JSON)) || [];
+  let fileData: any[] = (await readFile(RESULT_JSON, true)) || [];
   if (fileData?.length > 0) {
     fileData.push(data);
   } else {

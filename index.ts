@@ -4,20 +4,20 @@ import { crawlHotelLocation } from "./service/location";
 import { crawHotelPage } from "./service/page";
 
 async function main() {
-  // let locations = await fileLocationList();
-  // if (!locations?.length) {
-  //   locations = await crawlHotelLocation();
-  // }
+  let locations = await fileLocationList();
+  if (!locations?.length) {
+    locations = await crawlHotelLocation();
+  }
 
-  // await crawHotelPage(locations[6]);
+  await crawHotelPage(locations[7]);
 
-  // await writeFileConfig({
-  //   currentPage: "0",
-  //   pageLength: "0",
-  //   url: locations[1],
-  //   pageOffset: "0",
-  // });
-  await testErrorHotel("1684993004371",true);
+  await writeFileConfig({
+    currentPage: "0",
+    pageLength: "0",
+    url: locations[1],
+    pageOffset: "0",
+  });
+  // await testErrorHotel("1684993004371",true);
   showResult();
 }
 
