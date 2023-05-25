@@ -1,5 +1,6 @@
 import { By, until, WebElement, WebDriver } from "selenium-webdriver";
 import {
+  delay,
   filterBedType,
   getNumberFromString,
   getNumberListFromString,
@@ -305,13 +306,33 @@ export class CrawlerService {
               )
               .click();
           } catch (error) {
-            await container
-              .findElement(
-                By.css(
-                  "a.bh-photo-grid-item.bh-photo-grid-side-photo.bh-photo-grid-side-photo--side.bh-photo-grid-side-photo--side-half.active-image"
+            try {
+              await container
+                .findElement(
+                  By.css(
+                    "a.bh-photo-grid-item.bh-photo-grid-side-photo.bh-photo-grid-side-photo--side.bh-photo-grid-side-photo--side-half.active-image"
+                  )
                 )
-              )
-              .click();
+                .click();
+            } catch (error) {
+              try {
+                await container
+                  .findElement(
+                    By.css(
+                      "a.bh-photo-grid-item.bh-photo-grid-photo1.active-image.bh-photo-grid-photo1-s-full"
+                    )
+                  )
+                  .click();
+              } catch (error) {
+                await container
+                  .findElement(
+                    By.css(
+                      "a.bh-photo-grid-item.bh-photo-grid-side-photo.active-image"
+                    )
+                  )
+                  .click();
+              }
+            }
           }
         }
       }
@@ -416,9 +437,14 @@ export class CrawlerService {
     };
 
     const getAroundAmenities = async () => {
-      const aroundContainers = await this.driver.findElements(
-        By.css("div.d31796cb42")
+      await this.driver.executeScript(
+        `window.scrollTo(0,Number.MAX_SAFE_INTEGER)`
       );
+
+      const aroundContainers = await this.driver.findElements(
+        By.css("div.f1bc79b259 > div.d31796cb42")
+      );
+      console.log("xcvdsf", aroundContainers.length);
 
       const amenities = await Promise.all(
         aroundContainers.map(async (_item) => {
@@ -431,11 +457,14 @@ export class CrawlerService {
           );
 
           const values = await Promise.all(
-            itemList.map(async (_i) => {
+            itemList.map(async (_i, index) => {
+              console.log("dafsdsf", index);
+
               const nameContainer = await _i.findElement(
                 By.css("div.b1e6dd8416.aacd9d0b0a")
               );
               let prefixName = "";
+              console.log("name", prefixName);
 
               try {
                 prefixName = await nameContainer
@@ -444,10 +473,12 @@ export class CrawlerService {
               } catch (error) {}
 
               let name = await nameContainer.getText();
+              console.log("name", name);
 
               if (prefixName) {
                 name = name.replace(prefixName, prefixName + " ");
               }
+              console.log(name);
 
               const distance = await _i
                 .findElement(By.css("div.db29ecfbe2.c90c0a70d3"))
