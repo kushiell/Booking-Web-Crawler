@@ -419,7 +419,7 @@ export class CrawlerService {
       });
 
       const roomList = [];
-      for (let index = 0; index < roomElement.length; index++) {
+      for (let index = 0; index < roomElement?.length || 0; index++) {
         let clicked = false;
         try {
           await roomElement[index].findElement(By.css("a.d1c4779e7a"));
@@ -437,14 +437,17 @@ export class CrawlerService {
     };
 
     const getAroundAmenities = async () => {
-      await this.driver.executeScript(
-        `window.scrollTo(0,Number.MAX_SAFE_INTEGER)`
-      );
+      try {
+        await this.driver.wait(() => {
+          return this.driver.executeScript(
+            `window.scrollTo(0,Number.MAX_SAFE_INTEGER)`
+          );
+        }, 2000);
+      } catch (error) {}
 
       const aroundContainers = await this.driver.findElements(
         By.css("div.f1bc79b259 > div.d31796cb42")
       );
-      console.log("xcvdsf", aroundContainers.length);
 
       const amenities = await Promise.all(
         aroundContainers.map(async (_item) => {
@@ -458,13 +461,10 @@ export class CrawlerService {
 
           const values = await Promise.all(
             itemList.map(async (_i, index) => {
-              console.log("dafsdsf", index);
-
               const nameContainer = await _i.findElement(
                 By.css("div.b1e6dd8416.aacd9d0b0a")
               );
               let prefixName = "";
-              console.log("name", prefixName);
 
               try {
                 prefixName = await nameContainer
@@ -473,12 +473,10 @@ export class CrawlerService {
               } catch (error) {}
 
               let name = await nameContainer.getText();
-              console.log("name", name);
 
               if (prefixName) {
                 name = name.replace(prefixName, prefixName + " ");
               }
-              console.log(name);
 
               const distance = await _i
                 .findElement(By.css("div.db29ecfbe2.c90c0a70d3"))
@@ -503,10 +501,10 @@ export class CrawlerService {
 
     return {
       url: await this.getUrl(),
+      around: await getAroundAmenities(),
       ...(await getHotelInfoAttributes()),
       media: await getHotelMedia(),
       amenities: await getAmenities(),
-      around: await getAroundAmenities(),
       description: await getDescription(),
       rooms: await getRoom(),
     };

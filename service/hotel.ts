@@ -1,9 +1,12 @@
+import { RESULT_JSON } from "./../util/contant";
 import { Builder } from "selenium-webdriver";
 import { ERROR_TRY_COUNT_MAX, URLS_JSON } from "../util/contant";
 import {
   readFile,
   removeErrorHotelFile,
   appendResultFile,
+  writeFile,
+  appendErrorHotelFile,
 } from "../util/helpers";
 import { ErrorUrl, ForwardHotelOption } from "../util/interfaces";
 import { CrawlerService } from "./crawl";
@@ -63,10 +66,52 @@ export const forwardHotelUrl = async (
   const crawlService = new CrawlerService({ webdriver: driver });
   try {
     const room = await crawlService.hotelInfo(href);
+
+    console.log("length", room.around.length);
+
     await appendResultFile(room);
     option?.onSuccess && (await option?.onSuccess?.());
   } catch (error: any) {
+    console.log("err");
+
     option?.onFail && (await option?.onFail?.(error, href));
   }
   driver.quit();
+};
+
+export const crawlHotelAroundError = async () => {
+  const result: any[] = (await readFile(RESULT_JSON)) || [];
+
+  const ITEM_SLICE_NUMBER = 8;
+
+  const hotelErrorList = result.filter((item) => {
+    return item.around.length === 0;
+  });
+  console.log("start __ ", result.length);
+
+  for (let index = 0; index < hotelErrorList.length; index++) {
+   const _index = result.findIndex(item => item.around.length === 0)
+    result.splice(_index, 1);
+  }
+
+  console.log("middle __ ", result.length);
+  console.log("error __ ", hotelErrorList.length);
+
+  await writeFile(RESULT_JSON, result);
+
+  for (let page = 0; page < hotelErrorList.length / ITEM_SLICE_NUMBER; page++) {
+    const start = ITEM_SLICE_NUMBER * page;
+    const end = start + ITEM_SLICE_NUMBER;
+
+    await Promise.all(
+      hotelErrorList.slice(start, end).map(async (item) => {
+        return forwardHotelUrl(item.url,
+          {
+            onFail: async (error, href) => {
+              await appendErrorHotelFile({ url: href, reason: error.name });
+            },
+          });
+      })
+    );
+  }
 };

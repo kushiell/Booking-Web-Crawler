@@ -1,4 +1,4 @@
-import { crawlHotelError, testErrorHotel } from "./service/hotel";
+import { crawlHotelAroundError, crawlHotelError, testErrorHotel } from "./service/hotel";
 import {
   fileLocationList,
   readFile,
@@ -28,7 +28,8 @@ async function main() {
 
   // console.log("result", result);
 
-  await testErrorHotel("1685007596085");
+  // await testErrorHotel("1685450395822", true);
+  await crawlHotelAroundError()
   showResult();
 }
 
