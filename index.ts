@@ -1,4 +1,8 @@
-import { crawlHotelAroundError, crawlHotelError, testErrorHotel } from "./service/hotel";
+import {
+  crawlHotelAroundError,
+  crawlHotelError,
+  testErrorHotel,
+} from "./service/hotel";
 import {
   fileLocationList,
   readFile,
@@ -10,12 +14,12 @@ import { crawHotelPage } from "./service/page";
 import { RESULT_JSON } from "./util/contant";
 
 async function main() {
-  // let locations = await fileLocationList();
+  let locations = await fileLocationList();
   // if (!locations?.length) {
   //   locations = await crawlHotelLocation();
   // }
 
-  // await crawHotelPage(locations[6]);
+  await crawHotelPage(locations[0]);
 
   // await writeFileConfig({
   //   currentPage: "0",
@@ -28,8 +32,9 @@ async function main() {
 
   // console.log("result", result);
 
-  // await testErrorHotel("1685450395822", true);
-  await crawlHotelAroundError()
+  // await testErrorHotel("1685507275910");
+  await crawlHotelAroundError();
+  // await crawlHotelError();
   showResult();
 }
 

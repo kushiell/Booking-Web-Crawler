@@ -13,11 +13,19 @@ import { CrawlerService } from "./crawl";
 
 export const crawlHotelError = async () => {
   const errorUrls: ErrorUrl[] = (await readFile(URLS_JSON)) || [];
+  const ITEM_SLICE_NUMBER = 8;
 
-  await Promise.all(
-    errorUrls
-      .filter((item) => +item.try < ERROR_TRY_COUNT_MAX)
-      .map((_i) => {
+  const crawlItems = errorUrls.filter(
+    (item) => +item.try < ERROR_TRY_COUNT_MAX
+  );
+
+  const length = crawlItems.length / ITEM_SLICE_NUMBER;
+
+  for (let page = 0; page < length; page++) {
+    const start = ITEM_SLICE_NUMBER * page;
+    const end = start + ITEM_SLICE_NUMBER;
+    await Promise.all(
+      crawlItems.slice(start, end).map((_i) => {
         return (
           _i.url &&
           forwardHotelUrl(_i.url, {
@@ -27,7 +35,8 @@ export const crawlHotelError = async () => {
           })
         );
       })
-  );
+    );
+  }
 };
 
 export const testErrorHotel = async (id: string, remove?: boolean) => {
@@ -72,8 +81,6 @@ export const forwardHotelUrl = async (
     await appendResultFile(room);
     option?.onSuccess && (await option?.onSuccess?.());
   } catch (error: any) {
-    console.log("err");
-
     option?.onFail && (await option?.onFail?.(error, href));
   }
   driver.quit();
@@ -90,7 +97,7 @@ export const crawlHotelAroundError = async () => {
   console.log("start __ ", result.length);
 
   for (let index = 0; index < hotelErrorList.length; index++) {
-   const _index = result.findIndex(item => item.around.length === 0)
+    const _index = result.findIndex((item) => item.around.length === 0);
     result.splice(_index, 1);
   }
 
@@ -105,12 +112,11 @@ export const crawlHotelAroundError = async () => {
 
     await Promise.all(
       hotelErrorList.slice(start, end).map(async (item) => {
-        return forwardHotelUrl(item.url,
-          {
-            onFail: async (error, href) => {
-              await appendErrorHotelFile({ url: href, reason: error.name });
-            },
-          });
+        return forwardHotelUrl(item.url, {
+          onFail: async (error, href) => {
+            await appendErrorHotelFile({ url: href, reason: error.name });
+          },
+        });
       })
     );
   }
