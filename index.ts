@@ -14,12 +14,12 @@ import { crawHotelPage } from "./service/page";
 import { RESULT_JSON } from "./util/contant";
 
 async function main() {
-  let locations = await fileLocationList();
+  // let locations = await fileLocationList();
   // if (!locations?.length) {
   //   locations = await crawlHotelLocation();
   // }
 
-  await crawHotelPage(locations[0]);
+  // await crawHotelPage(locations[0]);
 
   // await writeFileConfig({
   //   currentPage: "0",
@@ -33,8 +33,8 @@ async function main() {
   // console.log("result", result);
 
   // await testErrorHotel("1685507275910");
-  await crawlHotelAroundError();
-  // await crawlHotelError();
+  // await crawlHotelAroundError();
+  await crawlHotelError();
   showResult();
 }
 
