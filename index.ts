@@ -17,7 +17,7 @@ async function main() {
     locations = await crawlHotelLocation();
   }
 
-  await crawHotelPage(locations[0]);
+  // await crawHotelPage(locations[0]);
 
   // let fileData: any[] = (await readFile(RESULT_JSON, true)) || [];
 
