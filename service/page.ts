@@ -28,6 +28,9 @@ export const crawHotelPage = async (url: string) => {
       ?.findElement(By.css("button.fc63351294.f9c5690c58"))
       ?.getText?.()) || 0
   );
+
+  console.log("Total Page: ", lastPageNumber);
+
   const config = await getConfig();
   let _currentPage = +(config?.currentPage || "0");
 

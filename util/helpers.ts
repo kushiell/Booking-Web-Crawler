@@ -1,5 +1,6 @@
 import fs from "fs/promises";
 import {
+  AROUND_JSON,
   CONFIG_JSON,
   LOCATION_JSON,
   RESULT_JSON,
@@ -87,7 +88,15 @@ export const appendResultFile = async (data: Object) => {
   } else {
     fileData = [data];
   }
-  await writeFile(RESULT_JSON, fileData);
+  let _data;
+
+  try {
+    _data = JSON.parse(JSON.stringify(fileData));
+  } catch (error) {
+    console.log("Error write file", data);
+  }
+
+  await writeFile(RESULT_JSON, _data);
 };
 
 export const appendErrorHotelFile = async (data: Object) => {
@@ -161,16 +170,27 @@ export const showResult = async () => {
   );
 };
 
-export const writeFileConfig = async (value: Config) => {
-  await writeFile(CONFIG_JSON, value);
+export const writeFileConfig = async (value: Partial<Config>) => {
+  const config = await getConfig();
+
+  await writeFile(CONFIG_JSON, {
+    ...config,
+    ...value,
+  });
 };
 
-export const fileLocationList = async () => {
-  const locations = (await readFile(LOCATION_JSON)) as string[];
-  return locations;
+export const writeAroundFile = async (value: Object) => {
+  await writeFile(AROUND_JSON, {
+    ...value,
+  });
 };
 
 export const getConfig = async () => {
   const config: Config = (await readFile(CONFIG_JSON)) || {};
   return config;
+};
+
+export const fileLocationList = async () => {
+  const locations = (await readFile(LOCATION_JSON)) as string[];
+  return locations;
 };

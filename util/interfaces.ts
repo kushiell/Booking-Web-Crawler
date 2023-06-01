@@ -27,4 +27,5 @@ export interface Config {
   currentPage: string;
   pageLength: string;
   url: string;
+  star: number
 }

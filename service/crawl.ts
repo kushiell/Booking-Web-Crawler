@@ -140,11 +140,8 @@ export class CrawlerService {
         );
         media = await Promise.all(
           images.map(async (_i) => {
-            await _i.click();
-
-            return popupContainer
-              .findElement(By.css("div.slick-slide.slick-active > img"))
-              .getAttribute("src");
+            const src = await _i.findElement(By.css("img")).getAttribute("src");
+            return src.replace("/square60", "/max1024x768");
           })
         );
       } else {

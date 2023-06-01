@@ -7,6 +7,7 @@ import {
   appendResultFile,
   writeFile,
   appendErrorHotelFile,
+  writeAroundFile,
 } from "../util/helpers";
 import { ErrorUrl, ForwardHotelOption } from "../util/interfaces";
 import { CrawlerService } from "./crawl";
@@ -76,7 +77,7 @@ export const forwardHotelUrl = async (
   try {
     const room = await crawlService.hotelInfo(href);
 
-    console.log("length", room.around.length);
+    console.log("hotel", room.name);
 
     await appendResultFile(room);
     option?.onSuccess && (await option?.onSuccess?.());
@@ -105,6 +106,7 @@ export const crawlHotelAroundError = async () => {
   console.log("error __ ", hotelErrorList.length);
 
   await writeFile(RESULT_JSON, result);
+  await writeAroundFile(hotelErrorList);
 
   for (let page = 0; page < hotelErrorList.length / ITEM_SLICE_NUMBER; page++) {
     const start = ITEM_SLICE_NUMBER * page;
