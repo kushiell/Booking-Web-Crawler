@@ -81,6 +81,14 @@ export const readFile = async (fileName: string, log?: boolean) => {
   }
 };
 
+const removeLastUrl = async() => {
+
+  const data = await fs.readFile(RESULT_JSON, "utf8");
+
+  console.log(data)
+  
+}
+
 export const appendResultFile = async (data: Object) => {
   let fileData: any[] = (await readFile(RESULT_JSON, true)) || [];
   if (fileData?.length > 0) {

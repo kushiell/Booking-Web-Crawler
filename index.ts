@@ -4,6 +4,7 @@ import {
   getConfig,
   readFile,
   showResult,
+  writeFile,
   writeFileConfig,
 } from "./util/helpers";
 import { crawlHotelLocation } from "./service/location";
@@ -12,20 +13,10 @@ import { RESULT_JSON } from "./util/contant";
 const HOTEL_STAR = 5;
 
 async function main() {
-  let locations = await fileLocationList();
-  if (!locations?.length) {
-    locations = await crawlHotelLocation();
-  }
-
-  // await crawHotelPage(locations[0]);
-
-  // let fileData: any[] = (await readFile(RESULT_JSON, true)) || [];
-
-  // const dup = fileData.filter((item) => {
-  //   const index = fileData.findIndex((f) => f.url === item.url);
-
-  //   return index > -1;
-  // });
+  // let locations = await fileLocationList();
+  // if (!locations?.length) {
+  //   locations = await crawlHotelLocation();
+  // }
 
   // const url = locations[0];
 
@@ -35,6 +26,13 @@ async function main() {
   //   console.log(`__BEGIN CRAWL ${index} STAR`);
 
   //   await crawHotelPage(`${url}&nflt=class%3D${index}`);
+  //   console.log("vail");
+  //   await writeFileConfig({
+  //     star: index,
+  //   });
+  //   console.log(`__FINISH CRAWL ${index} STAR`);
+  // }
+
   // await writeFileConfig({
   //   currentPage: "0",
   //   pageLength: "0",
@@ -42,13 +40,24 @@ async function main() {
   //   pageOffset: "0",
   //   star: 0,
   // });
-  //   console.log(`__FINISH CRAWL ${index} STAR`);
-  // }
 
-  await crawlHotelAroundError();
+  // await crawlHotelAroundError();
+  // await crawlHotelError()
 
   // // await testErrorHotel("1685507275910");
+  // await removeDuplicate();
+
   showResult();
 }
+
+const removeDuplicate = async () => {
+  const data: any[] = await readFile(RESULT_JSON);
+
+  const _data = data.filter((obj, index) => {
+    return index === data.findIndex((o) => obj.name === o.name);
+  });
+
+  await writeFile("location/da_lat.json", _data);
+};
 
 main();
