@@ -12,7 +12,7 @@ import {
 import { ErrorUrl, ForwardHotelOption } from "../util/interfaces";
 import { CrawlerService } from "./crawl";
 
-export const crawlHotelError = async () => {
+export const crawlHotelError = async (destination?: string) => {
   const errorUrls: ErrorUrl[] = (await readFile(URLS_JSON)) || [];
   const ITEM_SLICE_NUMBER = 8;
 
@@ -29,11 +29,15 @@ export const crawlHotelError = async () => {
       crawlItems.slice(start, end).map((_i) => {
         return (
           _i.url &&
-          forwardHotelUrl(_i.url, {
-            onSuccess: async () => {
-              await removeErrorHotelFile(_i.id);
+          forwardHotelUrl(
+            _i.url,
+            {
+              onSuccess: async () => {
+                await removeErrorHotelFile(_i.id);
+              },
             },
-          })
+            destination
+          )
         );
       })
     );
@@ -66,7 +70,8 @@ export const testErrorHotel = async (id: string, remove?: boolean) => {
 
 export const forwardHotelUrl = async (
   href: string,
-  option?: ForwardHotelOption
+  option?: ForwardHotelOption,
+  destination?: string
 ) => {
   let driver = await new Builder()
     .forBrowser("chrome")
@@ -79,7 +84,7 @@ export const forwardHotelUrl = async (
 
     console.log("hotel", room.name);
 
-    await appendResultFile(room);
+    await appendResultFile(room, destination);
     option?.onSuccess && (await option?.onSuccess?.());
   } catch (error: any) {
     option?.onFail && (await option?.onFail?.(error, href));

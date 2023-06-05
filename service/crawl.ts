@@ -138,6 +138,7 @@ export class CrawlerService {
         const images = await roomImageGalleryElements.findElements(
           By.tagName(`a`)
         );
+
         media = await Promise.all(
           images.map(async (_i) => {
             const src = await _i.findElement(By.css("img")).getAttribute("src");
@@ -158,11 +159,10 @@ export class CrawlerService {
           if (images) {
             media = await Promise.all(
               images.map(async (_i) => {
-                await _i.click();
-
-                return popupContainer
-                  .findElement(By.css("div.slick-slide.slick-active > img"))
+                const src = await _i
+                  .findElement(By.css("img"))
                   .getAttribute("src");
+                return src.replace("/square60", "/max1024x768");
               })
             );
           } else {
@@ -195,6 +195,7 @@ export class CrawlerService {
           .findElement(By.css("a > span"))
           .getText();
       }
+
       return {
         name,
         media: media,

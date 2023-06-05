@@ -8,6 +8,7 @@ import {
   URLS_JSON,
 } from "./contant";
 import { Config, ErrorType, ErrorUrl, WaitingOption } from "./interfaces";
+import { crawlHotelError, forwardHotelUrl } from "../service/hotel";
 
 export const waiting = async (
   cb: () => Promise<any>,
@@ -81,8 +82,11 @@ export const readFile = async (fileName: string, log?: boolean) => {
   }
 };
 
-export const appendResultFile = async (data: Object) => {
-  let fileData: any[] = (await readFile(RESULT_JSON, true)) || [];
+export const appendResultFile = async (
+  data: Object,
+  destination: string = RESULT_JSON
+) => {
+  let fileData: any[] = (await readFile(destination, true)) || [];
   if (fileData?.length > 0) {
     fileData.push(data);
   } else {
@@ -96,7 +100,7 @@ export const appendResultFile = async (data: Object) => {
     console.log("Error write file", data);
   }
 
-  await writeFile(RESULT_JSON, _data);
+  await writeFile(destination, _data);
 };
 
 export const appendErrorHotelFile = async (data: Object) => {
@@ -195,22 +199,119 @@ export const fileLocationList = async () => {
   return locations;
 };
 
-export const removeLastErrorHotel = async () => {
-  const data = await fs.readFile(RESULT_JSON, "utf8");
+export const removeLastErrorHotel = async (
+  destination: string = RESULT_JSON
+) => {
+  const data = await fs.readFile(destination, "utf8");
 
   const newData = data.replace(/(,{"url":)(?!.*\1).*/, "") + "]";
 
   const newObj = JSON.parse(newData);
-  await writeFile(RESULT_JSON, newObj);
+  await writeFile(destination, newObj);
 };
 
-
-export const removeDuplicate = async () => {
+export const removeDuplicate = async (file: string) => {
   const data: any[] = await readFile(RESULT_JSON);
+  console.log("resolving: ", data.length, " data");
 
   const _data = data.filter((obj, index) => {
     return index === data.findIndex((o) => obj.name === o.name);
   });
 
-  await writeFile("location/da_lat.json", _data);
+  console.log("resolved: ", _data.length, " data");
+
+  await writeFile(`location/${file}.json`, _data);
 };
+
+export const removeErrorHotel = async (id: string) => {
+  let fileData: ErrorUrl[] = (await readFile(URLS_JSON)) || [];
+
+  const removeItemIndex = fileData.findIndex((item) => item.id === id);
+  fileData.splice(removeItemIndex, 1);
+
+  return writeFile(URLS_JSON, fileData);
+};
+
+export const crawlMediaHotelError = async (file: string) => {
+  const data: any[] = await readFile(`location/${file}.json`);
+  const _errorMediaHotelList = data.filter((item, _ind) => {
+    const index = item.rooms.findIndex(
+      (i: any) => i.media.length > 0 && i.media[0] === i.media[1]
+    );
+
+    return index > -1;
+  });
+
+  console.log("result_before", data.length);
+
+  for (let index = 0; index < _errorMediaHotelList.length; index++) {
+    const _ind = data.findIndex((item) => {
+      const index = item.rooms.findIndex(
+        (i: any) => i.media.length > 0 && i.media[0] === i.media[1]
+      );
+      return index > -1;
+    });
+
+    data.splice(_ind, 1);
+  }
+
+  console.log("changes", _errorMediaHotelList.length);
+
+  await writeFile(`location/${file}.json`, data);
+  await writeFile(`location/${file}_media.json`, _errorMediaHotelList);
+  const ITEM_SLICE_NUMBER = 8;
+
+  for (
+    let page = 0;
+    page < _errorMediaHotelList.length / ITEM_SLICE_NUMBER;
+    page++
+  ) {
+    const start = ITEM_SLICE_NUMBER * page;
+    const end = start + ITEM_SLICE_NUMBER;
+
+    await Promise.all(
+      _errorMediaHotelList.slice(start, end).map(async (item) => {
+        return forwardHotelUrl(
+          item.url,
+          {
+            onFail: async (error, href) => {
+              await appendErrorHotelFile({ url: href, reason: error.name });
+            },
+          },
+          `location/${file}.json`
+        );
+      })
+    );
+
+    await crawlHotelError(`location/${file}.json`);
+  }
+  await crawlHotelError(`location/${file}.json`);
+};
+
+export async function total() {
+  try {
+    // directory path
+    const files = await fs.readdir("location");
+
+    // files object contains all files names
+    // log them on console
+
+    let total = 0;
+    await Promise.all(
+      files.map(async (file) => {
+        const data = await readFile(`location/${file}`);
+        total = total + data.length;
+      })
+    );
+
+    console.log("data", total);
+
+    // const total = data.reduce((prev, curr) => {
+    //   return curr.length + prev;
+    // }, 0);
+
+    // console.log(total);
+  } catch (err) {
+    console.error(err);
+  }
+}

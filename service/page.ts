@@ -2,13 +2,19 @@ import { Builder, By } from "selenium-webdriver";
 import { CrawlerService } from "./crawl";
 import {
   appendErrorHotelFile,
+  fileLocationList,
   getConfig,
   handleErrorHotelFile,
   showResult,
   writeFileConfig,
 } from "../util/helpers";
 import { HOTEL_PER_PAGE } from "../util/contant";
-import { crawlHotelError, forwardHotelUrl } from "./hotel";
+import {
+  crawlHotelAroundError,
+  crawlHotelError,
+  forwardHotelUrl,
+} from "./hotel";
+import { crawlHotelLocation } from "./location";
 require("chromedriver");
 
 export const crawHotelPage = async (url: string) => {
@@ -59,6 +65,11 @@ export const crawHotelPage = async (url: string) => {
     });
     await driver.navigate().to(_url);
     await crawPageService.hotelPageSlice();
+    if (currentPage === lastPageNumber - 1) {
+      await writeFileConfig({
+        currentPage: `${0}`,
+      });
+    }
   }
 
   driver.quit();
@@ -100,3 +111,30 @@ class CrawlPage extends CrawlerService {
     return true;
   }
 }
+
+const HOTEL_STAR = 5;
+
+export const craw = async () => {
+  let locations = await fileLocationList();
+  if (!locations?.length) {
+    locations = await crawlHotelLocation();
+  }
+
+  const url = locations[0];
+
+  const config = await getConfig();
+
+  for (let index = config.star; index <= HOTEL_STAR; index++) {
+    console.log(`__BEGIN CRAWL ${index} STAR`);
+
+    await crawHotelPage(`${url}&nflt=class%3D${index}`);
+    console.log("vail");
+    await writeFileConfig({
+      star: index,
+    });
+    console.log(`__FINISH CRAWL ${index} STAR`);
+  }
+
+  await crawlHotelAroundError();
+  await crawlHotelError();
+};
