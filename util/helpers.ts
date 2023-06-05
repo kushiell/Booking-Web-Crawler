@@ -259,6 +259,7 @@ export const crawlMediaHotelError = async (file: string) => {
 
   await writeFile(`location/${file}.json`, data);
   await writeFile(`location/${file}_media.json`, _errorMediaHotelList);
+
   const ITEM_SLICE_NUMBER = 8;
 
   for (
@@ -290,11 +291,7 @@ export const crawlMediaHotelError = async (file: string) => {
 
 export async function total() {
   try {
-    // directory path
     const files = await fs.readdir("location");
-
-    // files object contains all files names
-    // log them on console
 
     let total = 0;
     await Promise.all(
@@ -305,13 +302,31 @@ export async function total() {
     );
 
     console.log("_TOTAL_", total);
-
-    // const total = data.reduce((prev, curr) => {
-    //   return curr.length + prev;
-    // }, 0);
-
-    // console.log(total);
   } catch (err) {
     console.error(err);
   }
 }
+
+export const crawlAroundHotelError = async () => {
+  const data = await readFile(AROUND_JSON);
+
+  const _data = Object.values(data) as any[];
+  const ITEM_SLICE_NUMBER = 8;
+
+  for (let page = 0; page < _data.length / ITEM_SLICE_NUMBER; page++) {
+    const start = ITEM_SLICE_NUMBER * page;
+    const end = start + ITEM_SLICE_NUMBER;
+
+    await Promise.all(
+      _data.slice(start, end).map(async (item) => {
+        return forwardHotelUrl(item.url, {
+          onFail: async (error, href) => {
+            await appendErrorHotelFile({ url: href, reason: error.name });
+          },
+        });
+      })
+    );
+    await crawlHotelError();
+  }
+  await crawlHotelError();
+};
