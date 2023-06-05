@@ -304,7 +304,7 @@ export async function total() {
       })
     );
 
-    console.log("data", total);
+    console.log("_TOTAL_", total);
 
     // const total = data.reduce((prev, curr) => {
     //   return curr.length + prev;

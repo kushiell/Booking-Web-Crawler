@@ -112,8 +112,6 @@ class CrawlPage extends CrawlerService {
   }
 }
 
-const HOTEL_STAR = 5;
-
 export const craw = async () => {
   let locations = await fileLocationList();
   if (!locations?.length) {
@@ -124,11 +122,11 @@ export const craw = async () => {
 
   const config = await getConfig();
 
+  const HOTEL_STAR = 5;
   for (let index = config.star; index <= HOTEL_STAR; index++) {
     console.log(`__BEGIN CRAWL ${index} STAR`);
 
     await crawHotelPage(`${url}&nflt=class%3D${index}`);
-    console.log("vail");
     await writeFileConfig({
       star: index,
     });
