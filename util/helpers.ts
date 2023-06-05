@@ -81,14 +81,6 @@ export const readFile = async (fileName: string, log?: boolean) => {
   }
 };
 
-const removeLastUrl = async() => {
-
-  const data = await fs.readFile(RESULT_JSON, "utf8");
-
-  console.log(data)
-  
-}
-
 export const appendResultFile = async (data: Object) => {
   let fileData: any[] = (await readFile(RESULT_JSON, true)) || [];
   if (fileData?.length > 0) {
@@ -201,4 +193,24 @@ export const getConfig = async () => {
 export const fileLocationList = async () => {
   const locations = (await readFile(LOCATION_JSON)) as string[];
   return locations;
+};
+
+export const removeLastErrorHotel = async () => {
+  const data = await fs.readFile(RESULT_JSON, "utf8");
+
+  const newData = data.replace(/(,{"url":)(?!.*\1).*/, "") + "]";
+
+  const newObj = JSON.parse(newData);
+  await writeFile(RESULT_JSON, newObj);
+};
+
+
+export const removeDuplicate = async () => {
+  const data: any[] = await readFile(RESULT_JSON);
+
+  const _data = data.filter((obj, index) => {
+    return index === data.findIndex((o) => obj.name === o.name);
+  });
+
+  await writeFile("location/da_lat.json", _data);
 };
