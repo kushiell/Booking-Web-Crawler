@@ -7,14 +7,16 @@ import {
   total,
 } from "./util/helpers";
 import { craw } from "./service/page";
+import { crawlHotelError } from "./service/hotel";
 
 async function main() {
   // await craw();
+  // await crawlHotelError();
 
   // // await testErrorHotel("1685507275910");
-  // await removeDuplicate("hoi_an");
+  // await removeDuplicate("ho_chi_minh");
 
-  // await crawlMediaHotelError("hoi_an");
+  // await crawlMediaHotelError("ho_chi_minh");
 
   // await removeLastErrorHotel()
 

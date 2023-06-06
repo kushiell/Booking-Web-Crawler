@@ -56,7 +56,7 @@ export const crawHotelPage = async (url: string) => {
     currentPage < lastPageNumber;
     currentPage++
   ) {
-    console.log("---Current Page---", currentPage);
+    console.log("---Current Page---\n", currentPage);
     const _url = `${url}&offset=${currentPage * HOTEL_PER_PAGE}`;
     await writeFileConfig({
       ...config,
@@ -80,18 +80,11 @@ class CrawlPage extends CrawlerService {
     const hrefList = await this.hotelList();
 
     const ITEM_SLICE_NUMBER = 10;
-    const config = await getConfig();
-    const pageOffset = +(config?.pageOffset || "0");
     const total = hrefList.length / ITEM_SLICE_NUMBER;
 
-    for (let page = pageOffset; page < total; page++) {
+    for (let page = 0; page < total; page++) {
       const start = ITEM_SLICE_NUMBER * page;
       const end = start + ITEM_SLICE_NUMBER;
-
-      await writeFileConfig({
-        ...config,
-        pageOffset: `${page}`,
-      });
 
       await Promise.all(
         hrefList.slice(start, end).map((item) => {

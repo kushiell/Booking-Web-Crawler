@@ -170,7 +170,7 @@ export const showResult = async () => {
       error: fileUrls.length,
       success: fileData.length,
     },
-    "\n\n--------------------------------"
+    "\n\n--------------------------------\n"
   );
 };
 
