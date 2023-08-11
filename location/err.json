@@ -1,0 +1,224 @@
+[
+    {
+        "id": "1691774307777",
+        "try": "2",
+        "url": "https://www.booking.com/hotel/vn/a-phu-mountain-house-sa-pa.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=44d7d5536de49da1ab8555e71bf7a12f&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=4&hapos=379&sr_order=popularity&srpvid=68a679a1b6d90045&srepoch=1691774277&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774307824",
+        "try": "2",
+        "url": "https://www.booking.com/hotel/vn/snow-villas-sapa.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=44d7d5536de49da1ab8555e71bf7a12f&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=5&hapos=380&sr_order=popularity&srpvid=68a679a1b6d90045&srepoch=1691774277&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774307852",
+        "try": "2",
+        "url": "https://www.booking.com/hotel/vn/toce-house-ta-van.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=44d7d5536de49da1ab8555e71bf7a12f&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=9&hapos=384&sr_order=popularity&srpvid=68a679a1b6d90045&srepoch=1691774277&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774308152",
+        "try": "2",
+        "url": "https://www.booking.com/hotel/vn/h-amp-t-luxury-sa-pa.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=44d7d5536de49da1ab8555e71bf7a12f&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=8&hapos=383&sr_order=popularity&srpvid=68a679a1b6d90045&srepoch=1691774277&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774308187",
+        "try": "2",
+        "url": "https://www.booking.com/hotel/vn/fieu-house.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=44d7d5536de49da1ab8555e71bf7a12f&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=10&hapos=385&sr_order=popularity&srpvid=68a679a1b6d90045&srepoch=1691774277&from_sustainable_property_sr=1&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774308368",
+        "try": "2",
+        "url": "https://www.booking.com/hotel/vn/color-house-sapa-sa-pa.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=44d7d5536de49da1ab8555e71bf7a12f&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=3&hapos=378&sr_order=popularity&srpvid=68a679a1b6d90045&srepoch=1691774277&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774308390",
+        "try": "2",
+        "url": "https://www.booking.com/hotel/vn/a-phu-mountainhouse.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=44d7d5536de49da1ab8555e71bf7a12f&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=1&hapos=376&sr_order=popularity&srpvid=68a679a1b6d90045&srepoch=1691774277&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774308560",
+        "try": "2",
+        "url": "https://www.booking.com/hotel/vn/thanh-dong-homestay.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=44d7d5536de49da1ab8555e71bf7a12f&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=2&hapos=377&sr_order=popularity&srpvid=68a679a1b6d90045&srepoch=1691774277&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774334303",
+        "try": "2",
+        "url": "https://www.booking.com/hotel/vn/topas-riverside-lodge.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=44d7d5536de49da1ab8555e71bf7a12f&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=20&hapos=395&sr_order=popularity&srpvid=68a679a1b6d90045&srepoch=1691774277&from_sustainable_property_sr=1&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774334891",
+        "try": "2",
+        "url": "https://www.booking.com/hotel/vn/the-upper-house-sapa.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=44d7d5536de49da1ab8555e71bf7a12f&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=18&hapos=393&sr_order=popularity&srpvid=68a679a1b6d90045&srepoch=1691774277&from_sustainable_property_sr=1&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774335216",
+        "try": "2",
+        "url": "https://www.booking.com/hotel/vn/chapi-homestay-hillside.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=44d7d5536de49da1ab8555e71bf7a12f&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=17&hapos=392&sr_order=popularity&srpvid=68a679a1b6d90045&srepoch=1691774277&from_sustainable_property_sr=1&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774335699",
+        "try": "2",
+        "url": "https://www.booking.com/hotel/vn/sapa-unique-villa.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=44d7d5536de49da1ab8555e71bf7a12f&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=13&hapos=388&sr_order=popularity&srpvid=68a679a1b6d90045&srepoch=1691774277&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774336042",
+        "try": "2",
+        "url": "https://www.booking.com/hotel/vn/the-pepperking-resort-sapa.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=44d7d5536de49da1ab8555e71bf7a12f&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=12&hapos=387&sr_order=popularity&srpvid=68a679a1b6d90045&srepoch=1691774277&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774336605",
+        "try": "2",
+        "url": "https://www.booking.com/hotel/vn/que-huong-house.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=44d7d5536de49da1ab8555e71bf7a12f&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=16&hapos=391&sr_order=popularity&srpvid=68a679a1b6d90045&srepoch=1691774277&from_sustainable_property_sr=1&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774336714",
+        "try": "2",
+        "url": "https://www.booking.com/hotel/vn/hoa-chanh-bungalow.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=44d7d5536de49da1ab8555e71bf7a12f&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=19&hapos=394&sr_order=popularity&srpvid=68a679a1b6d90045&srepoch=1691774277&from_sustainable_property_sr=1&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774337091",
+        "try": "2",
+        "url": "https://www.booking.com/hotel/vn/laochai-mountian-view.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=44d7d5536de49da1ab8555e71bf7a12f&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=14&hapos=389&sr_order=popularity&srpvid=68a679a1b6d90045&srepoch=1691774277&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774337332",
+        "try": "2",
+        "url": "https://www.booking.com/hotel/vn/salem-house-sapa.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=44d7d5536de49da1ab8555e71bf7a12f&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=11&hapos=386&sr_order=popularity&srpvid=68a679a1b6d90045&srepoch=1691774277&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774337818",
+        "try": "2",
+        "url": "https://www.booking.com/hotel/vn/mushroom-homestay-sa-pa.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=44d7d5536de49da1ab8555e71bf7a12f&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=15&hapos=390&sr_order=popularity&srpvid=68a679a1b6d90045&srepoch=1691774277&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774349171",
+        "try": "2",
+        "url": "https://www.booking.com/hotel/vn/indigo-snail-boutique-hmong-homestay.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=44d7d5536de49da1ab8555e71bf7a12f&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=24&hapos=399&sr_order=popularity&srpvid=68a679a1b6d90045&srepoch=1691774277&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774349532",
+        "try": "2",
+        "url": "https://www.booking.com/hotel/vn/joy-house-riverside.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=44d7d5536de49da1ab8555e71bf7a12f&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=23&hapos=398&sr_order=popularity&srpvid=68a679a1b6d90045&srepoch=1691774277&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774349774",
+        "try": "2",
+        "url": "https://www.booking.com/hotel/vn/nha-nghi-toan-mai-sa-pa.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=44d7d5536de49da1ab8555e71bf7a12f&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=25&hapos=400&sr_order=popularity&srpvid=68a679a1b6d90045&srepoch=1691774277&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774350421",
+        "try": "2",
+        "url": "https://www.booking.com/hotel/vn/sao-xanh.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=44d7d5536de49da1ab8555e71bf7a12f&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=21&hapos=396&sr_order=popularity&srpvid=68a679a1b6d90045&srepoch=1691774277&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774350710",
+        "try": "2",
+        "url": "https://www.booking.com/hotel/vn/sapa-charming-homestay-lao-cai.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=44d7d5536de49da1ab8555e71bf7a12f&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=22&hapos=397&sr_order=popularity&srpvid=68a679a1b6d90045&srepoch=1691774277&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774431085",
+        "try": "1",
+        "url": "https://www.booking.com/hotel/vn/sapa-friendly-inn-amp-travel.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=44d7d5536de49da1ab8555e71bf7a12f&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=3&hapos=403&sr_order=popularity&srpvid=cd0b79e57e42017d&srepoch=1691774412&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774431266",
+        "try": "1",
+        "url": "https://www.booking.com/hotel/vn/po-homestay.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=44d7d5536de49da1ab8555e71bf7a12f&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=4&hapos=404&sr_order=popularity&srpvid=cd0b79e57e42017d&srepoch=1691774412&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774431702",
+        "try": "1",
+        "url": "https://www.booking.com/hotel/vn/peaceful.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=44d7d5536de49da1ab8555e71bf7a12f&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=2&hapos=402&sr_order=popularity&srpvid=cd0b79e57e42017d&srepoch=1691774412&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774431796",
+        "try": "1",
+        "url": "https://www.booking.com/hotel/vn/tavan-view-homestay.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=44d7d5536de49da1ab8555e71bf7a12f&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=6&hapos=406&sr_order=popularity&srpvid=cd0b79e57e42017d&srepoch=1691774412&from_sustainable_property_sr=1&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774432273",
+        "try": "1",
+        "url": "https://www.booking.com/hotel/vn/mrs-soi-39-s-homestay.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=44d7d5536de49da1ab8555e71bf7a12f&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=5&hapos=405&sr_order=popularity&srpvid=cd0b79e57e42017d&srepoch=1691774412&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774432393",
+        "try": "1",
+        "url": "https://www.booking.com/hotel/vn/ban-ho-ecologic-homestay.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=44d7d5536de49da1ab8555e71bf7a12f&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=1&hapos=401&sr_order=popularity&srpvid=cd0b79e57e42017d&srepoch=1691774412&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774432575",
+        "try": "1",
+        "url": "https://www.booking.com/hotel/vn/luckydaisy-buffalo-house.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=44d7d5536de49da1ab8555e71bf7a12f&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=7&hapos=407&sr_order=popularity&srpvid=cd0b79e57e42017d&srepoch=1691774412&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774656887",
+        "try": "1",
+        "url": "https://www.booking.com/hotel/vn/sapa-friendly-inn-amp-travel.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=e525ee0cb3afcf1f8d443bb0d33c005a&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=3&hapos=403&sr_order=popularity&srpvid=3c927a54a4030119&srepoch=1691774635&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774656924",
+        "try": "1",
+        "url": "https://www.booking.com/hotel/vn/peaceful.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=e525ee0cb3afcf1f8d443bb0d33c005a&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=2&hapos=402&sr_order=popularity&srpvid=3c927a54a4030119&srepoch=1691774635&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774657315",
+        "try": "1",
+        "url": "https://www.booking.com/hotel/vn/po-homestay.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=e525ee0cb3afcf1f8d443bb0d33c005a&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=4&hapos=404&sr_order=popularity&srpvid=3c927a54a4030119&srepoch=1691774635&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774657521",
+        "try": "1",
+        "url": "https://www.booking.com/hotel/vn/tavan-view-homestay.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=e525ee0cb3afcf1f8d443bb0d33c005a&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=6&hapos=406&sr_order=popularity&srpvid=3c927a54a4030119&srepoch=1691774635&from_sustainable_property_sr=1&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774658033",
+        "try": "1",
+        "url": "https://www.booking.com/hotel/vn/luckydaisy-buffalo-house.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=e525ee0cb3afcf1f8d443bb0d33c005a&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=7&hapos=407&sr_order=popularity&srpvid=3c927a54a4030119&srepoch=1691774635&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774658110",
+        "try": "1",
+        "url": "https://www.booking.com/hotel/vn/ban-ho-ecologic-homestay.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=e525ee0cb3afcf1f8d443bb0d33c005a&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=1&hapos=401&sr_order=popularity&srpvid=3c927a54a4030119&srepoch=1691774635&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    },
+    {
+        "id": "1691774658163",
+        "try": "1",
+        "url": "https://www.booking.com/hotel/vn/mrs-soi-39-s-homestay.vi.html?label=gog235jc-1FCAEoggI46AdIM1gDaPQBiAEBmAEquAEHyAEM2AEB6AEB-AENiAIBqAIDuALUo7imBsACAdICJDJmNTIyNmViLWRkYzMtNGMwOS1hYTc3LWQ4YjI0ZmZmODBiZNgCBuACAQ&sid=e525ee0cb3afcf1f8d443bb0d33c005a&aid=397594&ucfs=1&arphpl=1&dest_id=-3728113&dest_type=city&group_adults=2&req_adults=2&no_rooms=1&group_children=0&req_children=0&hpos=5&hapos=405&sr_order=popularity&srpvid=3c927a54a4030119&srepoch=1691774635&from=searchresults#hotelTmpl",
+        "reason": "NoSuchElementError"
+    }
+]

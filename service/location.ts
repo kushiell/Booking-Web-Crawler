@@ -63,7 +63,7 @@ export const crawlCityArea = async () => {
   const areaCrawledList: Omit<Area, "url">[] = await readFile(AREA_CRAWLED_JSON)
   const areaUnCrawledList: Area[] = await readFile(AREA_JSON)
 
-  const crawlItemExample = areaUnCrawledList.find(item => item.id === "1691345065253")
+  const crawlItemExample = areaUnCrawledList.find(item => item.id === "1691345064305")
 
   const areaCrawledIdList = areaCrawledList.map(item => item.id)
 

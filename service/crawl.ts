@@ -44,7 +44,7 @@ export class CrawlerService {
         const iconBedType = await bedTypeElement.getAttribute("data-testid");
         bedType = filterBedType(iconBedType);
         quantity = getNumberFromString(data);
-      } catch (error) {}
+      } catch (error) { }
 
       return {
         quantity: quantity,
@@ -178,7 +178,7 @@ export class CrawlerService {
         const titleCss = By.css("h1.rt-lightbox-title");
 
         name = await popupContainer.findElement(titleCss).getText();
-      } catch (error) {}
+      } catch (error) { }
 
       await waiting(() => {
         return popupContainer
@@ -441,7 +441,7 @@ export class CrawlerService {
             `window.scrollTo(0,Number.MAX_SAFE_INTEGER)`
           );
         }, 2000);
-      } catch (error) {}
+      } catch (error) { }
 
       const aroundContainers = await this.driver.findElements(
         By.css("div.f1bc79b259 > div.d31796cb42")
@@ -449,13 +449,22 @@ export class CrawlerService {
 
       const amenities = await Promise.all(
         aroundContainers.map(async (_item) => {
-          const title = await _item
-            .findElement(By.css("div.ac78a73c96.f0d4d6a2f5.fda3b74d0d"))
-            .getText();
+          let title = ''
+          try {
+            title = await _item
+              .findElement(By.css("div.ac78a73c96.f0d4d6a2f5.fda3b74d0d"))
+              .getText();
+          } catch (error) {
+            title = await _item
+              .findElement(By.css("div.f1bc79b259  .e1eebb6a1e.e6208ee469.d0caee4251"))
+              .getText();
+
+          }
 
           const itemList = await _item.findElements(
-            By.css("li.ef20942686.f514bc8c68.d4f1a1037b")
+            By.css("li")
           );
+          
 
           const values = await Promise.all(
             itemList.map(async (_i, index) => {
@@ -468,7 +477,7 @@ export class CrawlerService {
                 prefixName = await nameContainer
                   .findElement(By.css("span.b6f930dcc9"))
                   .getText();
-              } catch (error) {}
+              } catch (error) { }
 
               let name = await nameContainer.getText();
 
