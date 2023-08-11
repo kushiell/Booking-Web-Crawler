@@ -4,6 +4,7 @@ import {
   appendErrorHotelFile,
   fileLocationList,
   getConfig,
+  getNumberFromString,
   handleErrorHotelFile,
   showResult,
   writeFileConfig,
@@ -22,30 +23,30 @@ export const crawHotelPage = async (url: string) => {
 
   await driver.get(url);
 
-  const pageButtons = await driver.findElements(
-    By.css("ol.a8b500abde > li.f32a99c8d1")
-  );
-
   const crawPageService = new CrawlPage({ webdriver: driver });
-
-  const lastPageNumber = +(
-    (await pageButtons
-      .at(-1)
-      ?.findElement(By.css("button.fc63351294.f9c5690c58"))
-      ?.getText?.()) || 0
-  );
-
-  console.log("Total Page: ", lastPageNumber);
 
   const config = await getConfig();
   let _currentPage = +(config?.currentPage || "0");
 
+
+  const totalHotelText = await driver.findElement(By.css('.efdb2b543b.e4b7a69a57 > h1')).getText()
+
+  const totalHotelNumber = getNumberFromString(totalHotelText)
+
+  const HOTEL_PER_PAGE = 25
+
+  
+  const totalPageNumber = +(
+    totalHotelNumber/ HOTEL_PER_PAGE
+  );
+
+  console.log("Total Page: ", totalPageNumber);
   if (_currentPage === 0) {
     await crawPageService.hotelPageSlice();
     await writeFileConfig({
       ...config,
       currentPage: `1`,
-      pageLength: `${lastPageNumber}`,
+      pageLength: `${totalPageNumber}`,
       url,
     });
     _currentPage = 1;
@@ -53,7 +54,7 @@ export const crawHotelPage = async (url: string) => {
 
   for (
     let currentPage = _currentPage;
-    currentPage < lastPageNumber;
+    currentPage < totalPageNumber;
     currentPage++
   ) {
     console.log("---Current Page---\n", currentPage);
@@ -65,7 +66,7 @@ export const crawHotelPage = async (url: string) => {
     });
     await driver.navigate().to(_url);
     await crawPageService.hotelPageSlice();
-    if (currentPage === lastPageNumber - 1) {
+    if (currentPage === totalPageNumber - 1) {
       await writeFileConfig({
         currentPage: `${0}`,
       });

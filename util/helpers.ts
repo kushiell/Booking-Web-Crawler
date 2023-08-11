@@ -307,6 +307,20 @@ export async function total() {
   }
 }
 
+export async function count() {
+  try {
+    const files: any[] = await readFile("location/da_lat.json");
+
+    files.map(item => {
+      console.log(item.name)
+    })
+
+    console.log("_TOTAL_", files.length);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 export const crawlAroundHotelError = async () => {
   const data = await readFile(AROUND_JSON);
 
