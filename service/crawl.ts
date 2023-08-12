@@ -464,14 +464,26 @@ export class CrawlerService {
           const itemList = await _item.findElements(
             By.css("li")
           );
-          
 
           const values = await Promise.all(
             itemList.map(async (_i, index) => {
-              const nameContainer = await _i.findElement(
-                By.css("div.b1e6dd8416.aacd9d0b0a")
-              );
+              let nameContainer  = null
+
+              try {
+                nameContainer = await _i.findElement(
+                  By.css("div.b1e6dd8416.aacd9d0b0a")
+                );
+              } catch (error) {
+                
+                const nameContainer = await _i.findElement(
+                  By.css("div.b1e6dd8416.aacd9d0b0a")
+                );
+                "div.aca0ade214.aaf30230d9.c2931f4182.e7d9f93f4d.d79e71457a"
+              }
               let prefixName = "";
+
+
+              if(!nameContainer) return 
 
               try {
                 prefixName = await nameContainer
@@ -498,7 +510,7 @@ export class CrawlerService {
 
           return {
             key: title,
-            values,
+            values: values.map(item => !!item),
           };
         })
       );

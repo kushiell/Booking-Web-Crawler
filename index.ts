@@ -16,7 +16,7 @@ async function main() {
   // await craw();
   // await crawlHotelError();
 
-  // await testErrorHotel("1691774307777", false);
+  await testErrorHotel("1691796145747", false);
   // await removeDuplicate("vung_tau");
 
   // await crawlMediaHotelError("ho_chi_minh");
