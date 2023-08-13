@@ -27,7 +27,7 @@ export const crawlHotelLocation = async () => {
   return hrefList
 };
 
-interface Area {
+export interface Area {
   id: string;
   url: string;
   name: string;

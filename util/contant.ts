@@ -9,6 +9,9 @@ export const LOCATION_JSON = `${DATA_PREFIX}location.json`;
 export const AREA_JSON = `${DATA_PREFIX}area.json`;
 export const AREA_CRAWLED_JSON = `${DATA_PREFIX}area_crawled.json`;
 
+
+export const HOTEL_PREFIX = "hotel/";
+
 export const RETRY_FOUND_ELEMENT = 10;
 
 export const HOTEL_PER_PAGE = 25;
