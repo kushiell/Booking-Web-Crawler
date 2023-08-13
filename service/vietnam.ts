@@ -38,59 +38,54 @@ export const crawlVietNam = async () => {
     await driver.get(`${url}`);
 
     const unCrawledAreaList: Area[] = await readFile(AREA_JSON)
-    const unCrawledAreaItem = unCrawledAreaList.find(item => item.id === "1691345064275")
+
+    for (let index = 0; index < unCrawledAreaList.length; index++) {
+        const area = unCrawledAreaList[index]
+        await crawlHotelListAreaItem(area)
+        console.log("oke ", area.name)
+    }
 
 
-    // await Promise.all(areaUnCrawledList.map(async item => {
-    const _isCrawledArea = unCrawledAreaItem && (await isCrawledArea(unCrawledAreaItem.id)) || false
+    async function crawlHotelListAreaItem(unCrawledAreaItem: Area) {
+        const _isCrawledArea = unCrawledAreaItem && (await isCrawledArea(unCrawledAreaItem.id)) || false
 
-    if (_isCrawledArea) {
-        const { url, id, name } = unCrawledAreaItem as Area
+        if (_isCrawledArea) {
+            const { url, id, name } = unCrawledAreaItem as Area
 
-        const _url = new URL(url)
-        const fileName = _url.pathname.replace?.("/city/vn/", "")?.replace?.(".vi.html", "")
-        console.log("hotel: ", fileName, "\n");
-
-
-
-        // craw data here
-        await driver.get(url);
-        await driver.findElement(By.css(".lp-bui-section.bui-spacer--largest.x2>a")).click()
-
-        const _hotelTotal = await hotelTotal()
+            const _url = new URL(url)
+            const fileName = _url.pathname.replace?.("/city/vn/", "")?.replace?.(".vi.html", "")
+            console.log("hotel: ", fileName, "\n");
 
 
-        if (_hotelTotal > MAX_SHOW_HOTEL) {
-            // filter by star
+            // craw data here
+            await driver.get(url);
+            await driver.findElement(By.css(".lp-bui-section.bui-spacer--largest.x2>a")).click()
 
-            console.log("filter by star")
-            for (let index = 1; index <= HOTEL_STAR; index++) {
-                console.log(`__BEGIN CRAWL ${index} STAR`);
+            const _hotelTotal = await hotelTotal()
 
-                await crawlHotelList(_hotelTotal, `&nflt=class%3D${index}`);
+            if (_hotelTotal > MAX_SHOW_HOTEL) {
+                // filter by star
 
-                console.log(`__FINISH CRAWL ${index} STAR`);
+                return true
             }
 
-            return true
+            // continue to crawl by page normally
+
+            const hotelList = await crawlHotelList(_hotelTotal)
+
+            writeFile(`${HOTEL_PREFIX}${fileName}.json`, hotelList)
+
+
+            const crawledAreaItem: UnCrawledArea = {
+                id, name
+            }
+
+            appendResultFile(crawledAreaItem, AREA_CRAWLED_JSON)
         }
 
-        '?&&&city=-3733750&&nflt=class%3D1&nflt=class%3D2&nflt=class%3D3&nflt=class%3D4&nflt=class%3D5'
-        '?&&&city=-3733750&nflt=class%3D5'
 
-        // continue to crawl by page normally
-
-        const hotelList = await crawlHotelList(_hotelTotal)
-
-        writeFile(`${HOTEL_PREFIX}${fileName}.json`, hotelList)
-
-
-        const crawledAreaItem: UnCrawledArea = {
-            id, name
-        }
-
-        appendResultFile(crawledAreaItem, AREA_CRAWLED_JSON)
     }
+
 
 
     async function isCrawledArea(id: string) {
@@ -113,7 +108,7 @@ export const crawlVietNam = async () => {
         let hotelList: string[] = [...crawledList]
 
 
-        let pageTotal = Math.round(_hotelTotal / HOTEL_PER_PAGE)
+        let pageTotal = Math.ceil(_hotelTotal / HOTEL_PER_PAGE)
 
         if (!!param) {
             const starHotelTotal = await hotelTotal()
