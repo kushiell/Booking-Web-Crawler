@@ -2,6 +2,7 @@ import fs from "fs/promises";
 import {
   AROUND_JSON,
   CONFIG_JSON,
+  HOTEL_PREFIX,
   LOCATION_JSON,
   RESULT_JSON,
   RETRY_FOUND_ELEMENT,
@@ -307,6 +308,28 @@ export async function total() {
     console.error(err);
   }
 }
+
+export async function hotelListInfo() {
+  try {
+    const files = await fs.readdir(HOTEL_PREFIX.replace('/',''));
+
+    console.log("total area: ",files.length);
+    
+
+    let total = 0;
+    await Promise.all(
+      files.map(async (file) => {
+        const data = await readFile(`${HOTEL_PREFIX}${file}`);
+        total = total + data.length;
+      })
+    );
+
+    console.log("hotel _TOTAL_", total);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
 
 export async function count() {
   try {

@@ -2,6 +2,7 @@ import {
   count,
   crawlAroundHotelError,
   crawlMediaHotelError,
+  hotelListInfo,
   removeDuplicate,
   removeLastErrorHotel,
   showResult,
@@ -36,7 +37,8 @@ async function main() {
   // crawlCityArea()
 
   // const url = new URL(area)
-  crawlVietNam()
+  // crawlVietNam()
+  hotelListInfo()
 
   // console.log(`${url.host}/searchresults.vi.html${url.search}`)
 }
