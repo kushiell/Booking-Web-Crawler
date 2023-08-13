@@ -28,7 +28,7 @@ const HOTEL_PER_PAGE = 25
 const MAX_SHOW_HOTEL = 1000
 const HOTEL_STAR = 5
 
-type UnCrawledArea = Omit<Area, "url">
+type UnCrawledArea = Area
 
 export const crawlVietNam = async () => {
 
@@ -77,13 +77,11 @@ export const crawlVietNam = async () => {
 
 
             const crawledAreaItem: UnCrawledArea = {
-                id, name
+                id, name, url
             }
 
             appendResultFile(crawledAreaItem, AREA_CRAWLED_JSON)
         }
-
-
     }
 
 
@@ -118,7 +116,7 @@ export const crawlVietNam = async () => {
 
         console.log("Page total", pageTotal);
 
-        for (let index = 1; index < pageTotal; index++) {
+        for (let index = 1; index <= pageTotal; index++) {
             const offset = index * HOTEL_PER_PAGE
             const hotelListPageUrl = `${current_url}&offset=${offset}${param}`
 
