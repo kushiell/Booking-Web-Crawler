@@ -30,6 +30,8 @@ const HOTEL_STAR = 5
 
 type UnCrawledArea = Area
 
+const testAreaId = '1691345064275'
+
 export const crawlVietNam = async () => {
 
     let driver = await new Builder().forBrowser("chrome").build();
@@ -38,15 +40,22 @@ export const crawlVietNam = async () => {
     await driver.get(`${url}`);
 
     const unCrawledAreaList: Area[] = await readFile(AREA_JSON)
+    
 
-    for (let index = 0; index < unCrawledAreaList.length; index++) {
-        const area = unCrawledAreaList[index]
-        await crawlHotelListAreaItem(area)
-        console.log("oke ", area.name)
+    if(!!testAreaId) {
+        const unCrawledAreaItem = unCrawledAreaList.find(item => item.id === testAreaId)
+        await crawlHotelListAreaItem(unCrawledAreaItem)
+
+        console.log("test done")
+    } else {
+        for (let index = 0; index < unCrawledAreaList.length; index++) {
+            const area = unCrawledAreaList[index]
+            await crawlHotelListAreaItem(area)
+            console.log("oke ", area.name)
+        }
     }
 
-
-    async function crawlHotelListAreaItem(unCrawledAreaItem: Area) {
+    async function crawlHotelListAreaItem(unCrawledAreaItem: Area | undefined) {
         const _isCrawledArea = unCrawledAreaItem && (await isCrawledArea(unCrawledAreaItem.id)) || false
 
         if (_isCrawledArea) {
@@ -92,11 +101,8 @@ export const crawlVietNam = async () => {
         return !areaCrawledIdList.includes(id)
     }
 
-
-
     async function crawlHotelList(_hotelTotal: number, param: string = '') {
         const current_url: string = await driver.executeScript("return window.location.href;");
-
 
         const hotelListPageUrl = `${current_url}${param}`
         console.log("url", hotelListPageUrl);
