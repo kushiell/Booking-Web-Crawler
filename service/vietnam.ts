@@ -9,6 +9,7 @@ import {
     handleErrorHotelFile,
     readFile,
     showResult,
+    waiting,
     writeFile,
     writeFileConfig,
 } from "../util/helpers";
@@ -137,7 +138,9 @@ export const crawlVietNam = async () => {
     }
 
     async function hotelTotal(): Promise<number> {
-        const vietNamHotelTotalText = await driver.findElement(By.css("h1.f6431b446c.d5f78961c3")).getText()
+        const vietNamHotelTotalText: string = await waiting(async () => {
+            return driver.findElement(By.css("h1.f6431b446c.d5f78961c3")).getText()
+        });
         const total = getNumberFromString(vietNamHotelTotalText)
         return total
     }
