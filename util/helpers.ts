@@ -48,7 +48,8 @@ export function delay(milliseconds: number) {
 }
 
 export const getNumberFromString = (value: string) => {
-  return +value.replace(/\D/g, "");
+  if(!value) return 0
+  return +value?.replace?.(/\D/g, "");
 };
 
 export const getNumberListFromString = (value: string): string[] => {
