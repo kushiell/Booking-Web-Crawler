@@ -37,8 +37,8 @@ async function main() {
   // crawlCityArea()
 
   // const url = new URL(area)
-  // crawlVietNam()
-  hotelListInfo()
+  crawlVietNam()
+  // hotelListInfo()
 
   // console.log(`${url.host}/searchresults.vi.html${url.search}`)
 }

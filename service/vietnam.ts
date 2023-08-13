@@ -1,26 +1,15 @@
-import { By, until, WebElement, WebDriver, Builder } from "selenium-webdriver";
+import { By, Builder } from "selenium-webdriver";
 import { CrawlerService } from "./crawl";
 import {
-    appendErrorHotelFile,
     appendResultFile,
-    fileLocationList,
-    getConfig,
     getNumberFromString,
-    handleErrorHotelFile,
     readFile,
-    showResult,
     waiting,
     writeFile,
-    writeFileConfig,
 } from "../util/helpers";
 import { AREA_CRAWLED_JSON, AREA_JSON, HOTEL_PREFIX, } from "../util/contant";
-import {
-    crawlHotelAroundError,
-    crawlHotelError,
-    forwardHotelUrl,
-} from "./hotel";
-import { Area, crawlHotelLocation } from "./location";
-import { Driver } from "selenium-webdriver/chrome";
+
+import { Area, } from "./location";
 require("chromedriver");
 
 const url = 'https://www.booking.com/searchresults.vi.html?label=vi-vn-booking-desktop-ztDRHDT0cyr*llk1cdAHaQS652796014482%3Apl%3Ata%3Ap1%3Ap2%3Aac%3Aap%3Aneg%3Afi%3Atikwd-65526620%3Alp1028580%3Ali%3Adec%3Adm&aid=2311236&group_adults=2&req_adults=2&req_children=0&dest_type=country&dest_id=230&no_rooms=1&group_children=0'
@@ -31,7 +20,7 @@ const HOTEL_STAR = 5
 
 type UnCrawledArea = Area
 
-const testAreaId = '1691345064275'
+const testAreaId = ''
 
 export const crawlVietNam = async () => {
 
@@ -41,9 +30,9 @@ export const crawlVietNam = async () => {
     await driver.get(`${url}`);
 
     const unCrawledAreaList: Area[] = await readFile(AREA_JSON)
-    
 
-    if(!!testAreaId) {
+
+    if (!!testAreaId) {
         const unCrawledAreaItem = unCrawledAreaList.find(item => item.id === testAreaId)
         await crawlHotelListAreaItem(unCrawledAreaItem)
 
@@ -57,7 +46,8 @@ export const crawlVietNam = async () => {
     }
 
     async function crawlHotelListAreaItem(unCrawledAreaItem: Area | undefined) {
-        const _isCrawledArea = unCrawledAreaItem && (await isCrawledArea(unCrawledAreaItem.id)) || false
+
+        const _isCrawledArea = !!unCrawledAreaItem && (await isCrawledArea(unCrawledAreaItem.id)) || false
 
         if (_isCrawledArea) {
             const { url, id, name } = unCrawledAreaItem as Area
@@ -72,25 +62,40 @@ export const crawlVietNam = async () => {
             await driver.findElement(By.css(".lp-bui-section.bui-spacer--largest.x2>a")).click()
 
             const _hotelTotal = await hotelTotal()
+            let hotelList: any = []
 
             if (_hotelTotal > MAX_SHOW_HOTEL) {
                 // filter by star
+                console.log("filter by star", '\n');
+
+                for (let index = 0; index <= HOTEL_STAR; index++) {
+                    console.log(`__BEGIN CRAWL ${index} STAR\n`);
+
+                    const _hotelList = await crawlHotelList(_hotelTotal, `&nflt=class%3D${index}`);
+
+                    console.log("crawled Hotel: ", _hotelList.length, '\n');
+
+                    hotelList = [...hotelList, ..._hotelList]
+
+                    console.log(`__FINISH CRAWL ${index} STAR`);
+                }
 
                 return true
+            } else {
+
+                // continue to crawl by page normally
+
+                hotelList = await crawlHotelList(_hotelTotal)
             }
 
-            // continue to crawl by page normally
+            if (hotelList.length) {
+                writeFile(`${HOTEL_PREFIX}${fileName}.json`, hotelList)
 
-            const hotelList = await crawlHotelList(_hotelTotal)
-
-            writeFile(`${HOTEL_PREFIX}${fileName}.json`, hotelList)
-
-
-            const crawledAreaItem: UnCrawledArea = {
-                id, name, url
+                const crawledAreaItem: UnCrawledArea = {
+                    id, name, url
+                }
+                appendResultFile(crawledAreaItem, AREA_CRAWLED_JSON)
             }
-
-            appendResultFile(crawledAreaItem, AREA_CRAWLED_JSON)
         }
     }
 
@@ -103,9 +108,15 @@ export const crawlVietNam = async () => {
     }
 
     async function crawlHotelList(_hotelTotal: number, param: string = '') {
-        const current_url: string = await driver.executeScript("return window.location.href;");
+        let current_url: string = await driver.executeScript("return window.location.href;");
 
-        const hotelListPageUrl = `${current_url}${param}`
+
+        let hotelListPageUrl = current_url
+
+        current_url = current_url.replace(/&nflt=class%3D\d/g, '').replace(/&offset=\d*/g, '')
+
+        hotelListPageUrl = `${current_url}${param}`
+
         console.log("url", hotelListPageUrl);
         await driver.navigate().to(hotelListPageUrl)
         const crawledList = await crawler.hotelList()
@@ -117,8 +128,8 @@ export const crawlVietNam = async () => {
 
         if (!!param) {
             const starHotelTotal = await hotelTotal()
-            console.log("starHotelTotal", starHotelTotal);
-            pageTotal = (starHotelTotal > MAX_SHOW_HOTEL ? MAX_SHOW_HOTEL : starHotelTotal) / HOTEL_PER_PAGE
+            console.log("starHotelTotal", starHotelTotal, '\n');
+            pageTotal = Math.ceil((starHotelTotal > MAX_SHOW_HOTEL ? MAX_SHOW_HOTEL : starHotelTotal) / HOTEL_PER_PAGE)
         }
 
         console.log("Page total", pageTotal);
