@@ -177,28 +177,64 @@ export const crawlVietNam = async () => {
 }
 
 
-export const filterHotelList = async () => {
-    const crawledHotelObjectList: { _id: string, url: string }[] = await readFile('data.json')
+export const filterDuplicatedHotelFromServer = async () => {
+    const serverHotelObjectList: { _id: string, url: string }[] = await readFile('data.json')
 
-    const crawledHotelList = crawledHotelObjectList.map(item => getHotelNameFromUrl(item.url))
-    const uncrawledHotelObjectList: string[] = ((await getUncrawlHotelList() as any) as string[])
+    let serverHotelNameList = (serverHotelObjectList.map(item => getHotelNameFromUrl(item.url)))
 
-    const incommingCrawledHotelList = uncrawledHotelObjectList.filter(item => !!crawledHotelList.includes(getHotelNameFromUrl(item)))
+    let localHotelUrlList: string[] = (((await getUncrawlHotelList() as any) as string[]))
+    const uniqueLocalHotelList: {url: string, name: string}[] = removeDuplicateOfList(localHotelUrlList.map(item => ({
+        url: item,
+        name: getHotelNameFromUrl(item)
+    })), "name")
 
-    // const hotelList = crawledHotelList.map(item => item)
 
+    localHotelUrlList = removeDuplicateOfList(localHotelUrlList)
+    serverHotelNameList = removeDuplicateOfList(serverHotelNameList)
 
-    console.log("crawledHotelList", uncrawledHotelObjectList.length - crawledHotelObjectList.length);
+    console.log("\n")
+    console.log("Uncrawl hotel list: ", localHotelUrlList.length);
+    console.log("unique hotel list: ", uniqueLocalHotelList.length);
+    console.log("Server hotel list: ", serverHotelNameList.length);
+    console.log("Expected incoming crawling: ", uniqueLocalHotelList.length - serverHotelObjectList.length)
+    console.log("\n")
 
-    const _data = incommingCrawledHotelList.filter((obj, index) => {
-        return index === incommingCrawledHotelList.findIndex((o) => obj === o);
-    });
+    let duplicatedCount = 0
+    const incommingCrawlHotelList = uniqueLocalHotelList.filter(item => {
+        const index = serverHotelNameList.indexOf(item.name)
+        if (index !== -1) {
+            duplicatedCount++
+        }
+        return index === -1
+    })
 
-    console.log("_data", _data.length);
+    const _incomingCrawlingHotelList = removeDuplicateOfList(incommingCrawlHotelList, 'name')
+
+    writeFile("local_hotel.json", _incomingCrawlingHotelList)
+    console.log("Actual duplicatedCount", duplicatedCount);
+    console.log("Actual incoming crawling", _incomingCrawlingHotelList.length);
+    console.log("expected total incoming crawling", _incomingCrawlingHotelList.length + serverHotelNameList.length);
+    console.log("\n")
 
 }
 
 export const getHotelNameFromUrl = (url: string) => {
     const hotelName = (new URL(url)).pathname?.replace?.('/hotel/vn/', '')?.replace?.('.vi.html', '')
     return hotelName
+}
+
+export const removeDuplicateOfList = (data: any[], key?: string) => {
+    if (!data || !data.length) return []
+    const _data = data.filter((obj, index) => {
+        return index === data.findIndex((o) => {
+            if (key) {
+                return obj[key] === o[key]
+            }
+            else {
+                return obj === o
+            }
+        });
+    });
+
+    return _data
 }

@@ -4,6 +4,7 @@ import {
   crawlMediaHotelError,
   hotelListInfo,
   removeDuplicate,
+  removeDuplicateHotelList,
   removeLastErrorHotel,
   showResult,
   total,
@@ -12,7 +13,7 @@ import { craw } from "./service/page";
 import { crawlHotelError, testErrorHotel } from "./service/hotel";
 import { Builder } from "selenium-webdriver";
 import { crawlCityArea, crawlCityAreaList } from "./service/location";
-import { crawlVietNam, filterHotelList } from "./service/vietnam";
+import { crawlVietNam, filterDuplicatedHotelFromServer } from "./service/vietnam";
 
 async function main() {
   // await craw();
@@ -39,8 +40,11 @@ async function main() {
   // const url = new URL(area)
   // crawlVietNam()
   // hotelListInfo()
-  filterHotelList()
+//  await removeDuplicateHotelList()
+ filterDuplicatedHotelFromServer()
 
+  // console.log(data?.length);
+  
   // console.log(`${url.host}/searchresults.vi.html${url.search}`)
 }
 

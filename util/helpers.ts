@@ -327,12 +327,12 @@ export async function getUncrawlHotelList() {
     console.error(err);
   }
 }
+
 export async function hotelListInfo() {
   try {
     const files = await fs.readdir(HOTEL_PREFIX.replace('/', ''));
 
     console.log("total area: ", files.length);
-
 
     let total = 0;
     await Promise.all(
@@ -348,6 +348,36 @@ export async function hotelListInfo() {
   }
 }
 
+
+
+export async function removeDuplicateHotelList() {
+  try {
+    const files = await fs.readdir(HOTEL_PREFIX.replace('/', ''));
+
+    console.log("total area: ", files.length);
+
+    let hotelList: any[] = []
+    await Promise.all(
+      files.map(async (file) => {
+        const data: string[] = await readFile(`${HOTEL_PREFIX}${file}`);
+
+        const _data = data.filter((obj, index) => {
+          return index === data.findIndex((o) => obj === o);
+        });
+
+        console.log("before filter duplicated", file, data.length);
+        console.log("after filter duplicated", file, _data.length, "\n");
+
+        hotelList = [...hotelList, ...data]
+
+      })
+    );
+
+    return hotelList
+  } catch (err) {
+    console.error(err);
+  }
+}
 
 export async function count() {
   try {
