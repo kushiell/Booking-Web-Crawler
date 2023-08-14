@@ -88,6 +88,9 @@ export const crawlVietNam = async () => {
                 hotelList = await crawlHotelList(_hotelTotal)
             }
 
+            console.log("hotel crawled", hotelList.length);
+
+
             if (hotelList.length) {
                 writeFile(`${HOTEL_PREFIX}${fileName}.json`, hotelList)
 
@@ -125,6 +128,22 @@ export const crawlVietNam = async () => {
 
 
         let pageTotal = Math.ceil(_hotelTotal / HOTEL_PER_PAGE)
+
+        const pageButtons = await waiting(() => {
+            return driver.findElements(
+                By.css("ol.ef2dbaeb17 > li.b16a89683f")
+            );
+        })
+
+        const lastPageNumber = +(
+            (await pageButtons
+                .at(-1)
+                ?.findElement(By.css("button.a83ed08757.a2028338ea"))
+                ?.getText?.()) || 0
+        );
+
+        pageTotal = Math.max(lastPageNumber, pageTotal)
+
 
         if (!!param) {
             const starHotelTotal = await hotelTotal()
@@ -169,15 +188,13 @@ export const filterHotelList = async () => {
     // const hotelList = crawledHotelList.map(item => item)
 
 
-
     console.log("crawledHotelList", uncrawledHotelObjectList.length - crawledHotelObjectList.length);
 
     const _data = incommingCrawledHotelList.filter((obj, index) => {
         return index === incommingCrawledHotelList.findIndex((o) => obj === o);
-      });
+    });
 
-      console.log("_data",_data.length);
-      
+    console.log("_data", _data.length);
 
 }
 

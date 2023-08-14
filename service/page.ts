@@ -29,15 +29,16 @@ export const crawHotelPage = async (url: string) => {
   let _currentPage = +(config?.currentPage || "0");
 
 
+
   const totalHotelText = await driver.findElement(By.css('.efdb2b543b.e4b7a69a57 > h1')).getText()
 
   const totalHotelNumber = getNumberFromString(totalHotelText)
 
   const HOTEL_PER_PAGE = 25
 
-  
+
   const totalPageNumber = +(
-    totalHotelNumber/ HOTEL_PER_PAGE
+    totalHotelNumber / HOTEL_PER_PAGE
   );
 
   console.log("Total Page: ", totalPageNumber);
