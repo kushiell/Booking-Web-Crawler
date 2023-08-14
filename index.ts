@@ -12,7 +12,7 @@ import { craw } from "./service/page";
 import { crawlHotelError, testErrorHotel } from "./service/hotel";
 import { Builder } from "selenium-webdriver";
 import { crawlCityArea, crawlCityAreaList } from "./service/location";
-import { crawlVietNam } from "./service/vietnam";
+import { crawlVietNam, filterHotelList } from "./service/vietnam";
 
 async function main() {
   // await craw();
@@ -37,8 +37,9 @@ async function main() {
   // crawlCityArea()
 
   // const url = new URL(area)
-  crawlVietNam()
+  // crawlVietNam()
   // hotelListInfo()
+  filterHotelList()
 
   // console.log(`${url.host}/searchresults.vi.html${url.search}`)
 }

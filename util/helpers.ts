@@ -49,7 +49,7 @@ export function delay(milliseconds: number) {
 }
 
 export const getNumberFromString = (value: string) => {
-  if(!value) return 0
+  if (!value) return 0
   return +value?.replace?.(/\D/g, "");
 };
 
@@ -308,13 +308,31 @@ export async function total() {
     console.error(err);
   }
 }
+export async function getUncrawlHotelList() {
+  try {
+    const files = await fs.readdir("hotel");
+    let hotelList: any[] = []
 
+    await Promise.all(
+      files.map(async (file) => {
+        const data = await readFile(`hotel/${file}`);
+
+        hotelList = [...hotelList, ...data]
+        return true
+      })
+    );
+
+    return hotelList
+  } catch (err) {
+    console.error(err);
+  }
+}
 export async function hotelListInfo() {
   try {
-    const files = await fs.readdir(HOTEL_PREFIX.replace('/',''));
+    const files = await fs.readdir(HOTEL_PREFIX.replace('/', ''));
 
-    console.log("total area: ",files.length);
-    
+    console.log("total area: ", files.length);
+
 
     let total = 0;
     await Promise.all(

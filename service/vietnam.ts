@@ -3,6 +3,7 @@ import { CrawlerService } from "./crawl";
 import {
     appendResultFile,
     getNumberFromString,
+    getUncrawlHotelList,
     readFile,
     waiting,
     writeFile,
@@ -80,7 +81,6 @@ export const crawlVietNam = async () => {
                     console.log(`__FINISH CRAWL ${index} STAR`);
                 }
 
-                return true
             } else {
 
                 // continue to crawl by page normally
@@ -155,4 +155,33 @@ export const crawlVietNam = async () => {
         const total = getNumberFromString(vietNamHotelTotalText)
         return total
     }
+}
+
+
+export const filterHotelList = async () => {
+    const crawledHotelObjectList: { _id: string, url: string }[] = await readFile('data.json')
+
+    const crawledHotelList = crawledHotelObjectList.map(item => getHotelNameFromUrl(item.url))
+    const uncrawledHotelObjectList: string[] = ((await getUncrawlHotelList() as any) as string[])
+
+    const incommingCrawledHotelList = uncrawledHotelObjectList.filter(item => !!crawledHotelList.includes(getHotelNameFromUrl(item)))
+
+    // const hotelList = crawledHotelList.map(item => item)
+
+
+
+    console.log("crawledHotelList", uncrawledHotelObjectList.length - crawledHotelObjectList.length);
+
+    const _data = incommingCrawledHotelList.filter((obj, index) => {
+        return index === incommingCrawledHotelList.findIndex((o) => obj === o);
+      });
+
+      console.log("_data",_data.length);
+      
+
+}
+
+export const getHotelNameFromUrl = (url: string) => {
+    const hotelName = (new URL(url)).pathname?.replace?.('/hotel/vn/', '')?.replace?.('.vi.html', '')
+    return hotelName
 }
