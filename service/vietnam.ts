@@ -244,7 +244,7 @@ export const removeDuplicateOfList = (data: any[], key?: string) => {
 export const crawlHotelList = async () => {
     const data: { name: string, url: string }[] = await readFile('local_hotel.json')
 
-    const ITEM_SLICE_NUMBER = 2;
+    const ITEM_SLICE_NUMBER = 5;
     const total = data.length / ITEM_SLICE_NUMBER;
 
     for (let page = 0; page < total; page++) {
