@@ -44,10 +44,12 @@ export const crawlHotelError = async (destination?: string) => {
   }
 };
 
-export const testErrorHotel = async (id: string, remove?: boolean) => {
-  const errorUrls: ErrorUrl[] = (await readFile(URLS_JSON)) || [];
+
+export const testErrorHotel = async ({ id, remove, destination, isLoged }: { id: string, remove?: boolean, destination: string, isLoged: boolean }) => {
+  const errorUrls: ErrorUrl[] = (await readFile(destination ?? URLS_JSON)) || [];
   const index = errorUrls.findIndex((item) => item.id === id);
   const _url = errorUrls[index]?.url || "";
+  if (index === -1) return
 
   let driver = await new Builder()
     .forBrowser("chrome")
@@ -56,17 +58,19 @@ export const testErrorHotel = async (id: string, remove?: boolean) => {
 
   const crawlService = new CrawlerService({ webdriver: driver });
   const room = await crawlService.hotelInfo(_url);
-  if (!remove) {
+  if (!remove && isLoged) {
     console.log(JSON.stringify(room));
   }
 
-  if (room && remove) {
+  if (room && remove && !destination) {
     await appendResultFile(room);
     await removeErrorHotelFile(id);
   }
 
   driver.quit();
 };
+
+
 
 export const forwardHotelUrl = async (
   href: string,

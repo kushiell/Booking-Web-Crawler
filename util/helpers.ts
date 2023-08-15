@@ -2,6 +2,8 @@ import fs from "fs/promises";
 import {
   AROUND_JSON,
   CONFIG_JSON,
+  CRAWELD_HOTEL_URL_FILE_PATH,
+  HOTEL_ERROR_FILE_PATH,
   HOTEL_PREFIX,
   LOCATION_JSON,
   RESULT_JSON,
@@ -122,6 +124,46 @@ export const appendErrorHotelFile = async (data: Object) => {
 
   await writeFile(URLS_JSON, fileData);
 };
+
+
+export const appendErrorHotelDataToStore = async (data: Object) => {
+  let fileData: any[] = (await readFile(HOTEL_ERROR_FILE_PATH)) || [];
+
+  const _data = {
+    id: `${Date.now()}`,
+    try: 0,
+    ...data,
+  };
+
+  if (fileData?.length > 0) {
+    fileData.push(_data);
+  } else {
+    fileData = [_data];
+  }
+
+  await writeFile(HOTEL_ERROR_FILE_PATH, fileData);
+};
+
+export const isHotelCrawled = async (url: string) => {
+  if (!url) return true
+  let fileData: any[] = (await readFile(CRAWELD_HOTEL_URL_FILE_PATH)) || [];
+
+  return fileData.indexOf(url) !== -1
+}
+
+export const markDataCrawled = async (data: Object) => {
+  let fileData: any[] = (await readFile(CRAWELD_HOTEL_URL_FILE_PATH)) || [];
+
+  if (fileData?.length > 0) {
+    fileData.push(data);
+  } else {
+    fileData = [data];
+  }
+
+  await writeFile(CRAWELD_HOTEL_URL_FILE_PATH, fileData);
+};
+
+
 export const inscreaseErrorHotelFile = async (data: Object) => {
   let fileData: any[] = (await readFile(URLS_JSON)) || [];
 

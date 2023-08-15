@@ -410,11 +410,20 @@ export class CrawlerService {
         return this.driver.findElement(By.css(".roomstable"));
       });
 
-      const roomElement: WebElement[] = await waiting(() => {
+
+      let roomElement: WebElement[] = await waiting(() => {
         return roomsContainerElement.findElements(
           By.css("div.ed14448b9f.ccff2b4c43.cb10ca9525")
         );
       });
+
+      if (roomElement.length === 0) {
+        roomElement = await waiting(() => {
+          return roomsContainerElement.findElements(
+            By.css("div.ed14448b9f.b817090550.e7f103ee9e")
+          );
+        })
+      }
 
       const roomList = [];
       for (let index = 0; index < roomElement?.length || 0; index++) {
@@ -464,35 +473,58 @@ export class CrawlerService {
           const itemList = await _item.findElements(
             By.css("li")
           );
-          
+
 
           const values = await Promise.all(
             itemList.map(async (_i, index) => {
-              const nameContainer = await _i.findElement(
-                By.css("div.b1e6dd8416.aacd9d0b0a")
-              );
-              let prefixName = "";
-
+              let result: { name: string, distance: string } = { name: '', distance: '' }
               try {
-                prefixName = await nameContainer
-                  .findElement(By.css("span.b6f930dcc9"))
+                const nameContainer = await _i.findElement(
+                  By.css("div.b1e6dd8416.aacd9d0b0a")
+                );
+                let prefixName = "";
+                try {
+                  prefixName = await nameContainer
+                    .findElement(By.css("span.b6f930dcc9"))
+                    .getText();
+                } catch (error) { }
+
+                let name = await nameContainer.getText();
+
+                if (prefixName) {
+                  name = name.replace(prefixName, prefixName + " ");
+                }
+
+                const distance = await _i
+                  .findElement(By.css("div.db29ecfbe2.c90c0a70d3"))
                   .getText();
-              } catch (error) { }
+                result = {
+                  name,
+                  distance
+                }
+              } catch (error) {
+                const containerText = (await _i.getText())?.split?.("\n")
 
-              let name = await nameContainer.getText();
+                const prefixName = await waiting(() => {
+                  return _i.findElement(By.css('span.b6f930dcc9')).getText()
+                })
 
-              if (prefixName) {
-                name = name.replace(prefixName, prefixName + " ");
+                let [name = '', distance = ''] = containerText
+                if (!!prefixName) {
+
+                  const regex = new RegExp(prefixName, 'g');
+                  name = name.replace(regex, '')
+
+                  if (!name.toLowerCase().includes(prefixName.toLowerCase())) {
+                    name = `${prefixName} ${name}`
+                    name = name.replace('  ', ' ')
+                  }
+                }
+
+                result = { name: name, distance }
               }
 
-              const distance = await _i
-                .findElement(By.css("div.db29ecfbe2.c90c0a70d3"))
-                .getText();
-
-              return {
-                name,
-                distance,
-              };
+              return result
             })
           );
 

@@ -1,16 +1,20 @@
 import { By, Builder } from "selenium-webdriver";
 import { CrawlerService } from "./crawl";
 import {
+    appendErrorHotelDataToStore,
     appendResultFile,
     getNumberFromString,
     getUncrawlHotelList,
+    isHotelCrawled,
+    markDataCrawled,
     readFile,
     waiting,
     writeFile,
 } from "../util/helpers";
-import { AREA_CRAWLED_JSON, AREA_JSON, HOTEL_PREFIX, } from "../util/contant";
+import { AREA_CRAWLED_JSON, AREA_JSON, HOTEL_FILE_PATH, HOTEL_PREFIX, } from "../util/contant";
 
 import { Area, } from "./location";
+import { forwardHotelUrl } from "./hotel";
 require("chromedriver");
 
 const url = 'https://www.booking.com/searchresults.vi.html?label=vi-vn-booking-desktop-ztDRHDT0cyr*llk1cdAHaQS652796014482%3Apl%3Ata%3Ap1%3Ap2%3Aac%3Aap%3Aneg%3Afi%3Atikwd-65526620%3Alp1028580%3Ali%3Adec%3Adm&aid=2311236&group_adults=2&req_adults=2&req_children=0&dest_type=country&dest_id=230&no_rooms=1&group_children=0'
@@ -183,7 +187,7 @@ export const filterDuplicatedHotelFromServer = async () => {
     let serverHotelNameList = (serverHotelObjectList.map(item => getHotelNameFromUrl(item.url)))
 
     let localHotelUrlList: string[] = (((await getUncrawlHotelList() as any) as string[]))
-    const uniqueLocalHotelList: {url: string, name: string}[] = removeDuplicateOfList(localHotelUrlList.map(item => ({
+    const uniqueLocalHotelList: { url: string, name: string }[] = removeDuplicateOfList(localHotelUrlList.map(item => ({
         url: item,
         name: getHotelNameFromUrl(item)
     })), "name")
@@ -218,10 +222,7 @@ export const filterDuplicatedHotelFromServer = async () => {
 
 }
 
-export const getHotelNameFromUrl = (url: string) => {
-    const hotelName = (new URL(url)).pathname?.replace?.('/hotel/vn/', '')?.replace?.('.vi.html', '')
-    return hotelName
-}
+
 
 export const removeDuplicateOfList = (data: any[], key?: string) => {
     if (!data || !data.length) return []
@@ -237,4 +238,43 @@ export const removeDuplicateOfList = (data: any[], key?: string) => {
     });
 
     return _data
+}
+
+
+export const crawlHotelList = async () => {
+    const data: { name: string, url: string }[] = await readFile('local_hotel.json')
+
+    const ITEM_SLICE_NUMBER = 2;
+    const total = data.length / ITEM_SLICE_NUMBER;
+
+    for (let page = 0; page < total; page++) {
+        const start = ITEM_SLICE_NUMBER * page;
+        const end = start + ITEM_SLICE_NUMBER;
+
+        await Promise.all(
+            data.slice(start, end).map(async (item, index) => {
+                const isDataCrawled = await isHotelCrawled(item.name)
+
+                if (isDataCrawled) return
+                return forwardHotelUrl(item.url, {
+                    onFail: async (error, href) => {
+                        await appendErrorHotelDataToStore({ url: href, reason: error.name, name: item.name });
+                        await markDataCrawled(item.name)
+                    },
+                    onSuccess: async () => {
+                        console.log("Crawled: ", start + index, "/", data.length);
+                        await markDataCrawled(item.name)
+                    }
+                }, HOTEL_FILE_PATH);
+            })
+        );
+    }
+
+
+    return true;
+}
+
+export const getHotelNameFromUrl = (url: string) => {
+    const hotelName = (new URL(url)).pathname?.replace?.('/hotel/vn/', '')?.replace?.('.vi.html', '')
+    return hotelName
 }

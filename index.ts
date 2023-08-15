@@ -10,16 +10,17 @@ import {
   total,
 } from "./util/helpers";
 import { craw } from "./service/page";
-import { crawlHotelError, testErrorHotel } from "./service/hotel";
-import { Builder } from "selenium-webdriver";
-import { crawlCityArea, crawlCityAreaList } from "./service/location";
-import { crawlVietNam, filterDuplicatedHotelFromServer } from "./service/vietnam";
+import { testErrorHotel } from "./service/hotel";
+import { HOTEL_ERROR_FILE_PATH } from "./util/contant";
+import { crawlHotelList } from "./service/vietnam";
 
 async function main() {
   // await craw();
+  crawlHotelList()
+
   // await crawlHotelError();
 
-  // await testErrorHotel("1691774307777", false);
+  // await testErrorHotel({ id: "1692103598627", remove: false, destination: HOTEL_ERROR_FILE_PATH, isLoged: false });
   // await removeDuplicate("vung_tau");
 
   // await crawlMediaHotelError("ho_chi_minh");
@@ -40,11 +41,11 @@ async function main() {
   // const url = new URL(area)
   // crawlVietNam()
   // hotelListInfo()
-//  await removeDuplicateHotelList()
- filterDuplicatedHotelFromServer()
+  //  await removeDuplicateHotelList()
+  //  filterDuplicatedHotelFromServer()
 
   // console.log(data?.length);
-  
+
   // console.log(`${url.host}/searchresults.vi.html${url.search}`)
 }
 
