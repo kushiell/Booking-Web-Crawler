@@ -8,6 +8,7 @@ import {
     isHotelCrawled,
     markDataCrawled,
     readFile,
+    removeDuplicateOfList,
     waiting,
     writeFile,
 } from "../util/helpers";
@@ -220,24 +221,6 @@ export const filterDuplicatedHotelFromServer = async () => {
     console.log("expected total incoming crawling", _incomingCrawlingHotelList.length + serverHotelNameList.length);
     console.log("\n")
 
-}
-
-
-
-export const removeDuplicateOfList = (data: any[], key?: string) => {
-    if (!data || !data.length) return []
-    const _data = data.filter((obj, index) => {
-        return index === data.findIndex((o) => {
-            if (key) {
-                return obj[key] === o[key]
-            }
-            else {
-                return obj === o
-            }
-        });
-    });
-
-    return _data
 }
 
 
