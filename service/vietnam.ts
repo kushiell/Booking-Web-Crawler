@@ -225,7 +225,7 @@ export const filterDuplicatedHotelFromServer = async () => {
 
 
 export const crawlHotelList = async () => {
-    const data: { name: string, url: string }[] = await readFile('local_hotel.json')
+    const data: { name: string, url: string }[] = await readFile('local_hotel_2.json')
 
     const ITEM_SLICE_NUMBER = 5;
     const total = data.length / ITEM_SLICE_NUMBER;

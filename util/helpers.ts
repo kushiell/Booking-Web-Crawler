@@ -390,19 +390,15 @@ export async function getHotelListV2() {
       })
     );
 
-    const list = removeDuplicateOfList(hotelList, 'url')
-    
-    const names = list.map(item => getHotelNameFromUrl(item.url))
+    const list = removeDuplicateOfList(hotelList, 'url').filter(item => item.around.length > 0)
 
-    const uncrawls = []
+
+    const names = removeDuplicateOfList(list.map(item => getHotelNameFromUrl(item.url)))
 
    const newhotelList =  _local.filter(item => !names.includes(item.name))
 
 
-
-    console.log(newhotelList.length , names.length, _local.length);
-
-    
+    writeFile("local_hotel_2.json", newhotelList)
     
     return list
 
