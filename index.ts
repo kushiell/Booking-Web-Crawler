@@ -17,8 +17,8 @@ import { crawlHotelList } from "./service/vietnam";
 
 async function main() {
   // await craw();
-  crawlHotelList()
-  // const hotelList = await getHotelListV2()
+  // crawlHotelList()
+  const hotelList = await getHotelListV2()
 
   
   // await crawlHotelError();
