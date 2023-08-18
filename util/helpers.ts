@@ -12,6 +12,7 @@ import {
 } from "./contant";
 import { Config, ErrorType, ErrorUrl, WaitingOption } from "./interfaces";
 import { crawlHotelError, forwardHotelUrl } from "../service/hotel";
+import { getHotelNameFromUrl } from "../service/vietnam";
 
 export const waiting = async (
   cb: () => Promise<any>,
@@ -370,6 +371,50 @@ export async function getUncrawlHotelList() {
   }
 }
 
+
+
+export async function getHotelListV2() {
+  const FOLDER_PATH = 'data/crawl/hotel'
+    try {
+    const files = await fs.readdir(FOLDER_PATH);
+    let hotelList: any[] = []
+    const _local: { name: string, url: string }[] = await readFile('local_hotel.json')
+
+    await Promise.all(
+      files.map(async (file) => {
+
+        const data = await readFile(`${FOLDER_PATH}/${file}`);
+
+        hotelList = [...data, ...hotelList]
+      
+      })
+    );
+
+    const list = removeDuplicateOfList(hotelList, 'url')
+    
+    const names = list.map(item => getHotelNameFromUrl(item.url))
+
+    const uncrawls = []
+
+   const newhotelList =  _local.filter(item => !names.includes(item.name))
+
+
+
+    console.log(newhotelList.length , names.length, _local.length);
+
+    
+    
+    return list
+
+
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+
+
+
 export async function hotelListInfo() {
   try {
     const files = await fs.readdir(HOTEL_PREFIX.replace('/', ''));
@@ -458,3 +503,21 @@ export const crawlAroundHotelError = async () => {
   }
   await crawlHotelError();
 };
+
+
+
+export const removeDuplicateOfList = (data: any[], key?: string) => {
+  if (!data || !data.length) return []
+  const _data = data.filter((obj, index) => {
+      return index === data.findIndex((o) => {
+          if (key) {
+              return obj[key] === o[key]
+          }
+          else {
+              return obj === o
+          }
+      });
+  });
+
+  return _data
+}
