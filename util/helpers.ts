@@ -13,6 +13,7 @@ import {
 import { Config, ErrorType, ErrorUrl, WaitingOption } from "./interfaces";
 import { crawlHotelError, forwardHotelUrl } from "../service/hotel";
 import { getHotelNameFromUrl } from "../service/vietnam";
+import axios from "axios";
 
 export const waiting = async (
   cb: () => Promise<any>,
@@ -371,38 +372,84 @@ export async function getUncrawlHotelList() {
   }
 }
 
-
-
 export async function getHotelListV2() {
   const FOLDER_PATH = 'data/crawl/hotel'
-    try {
+  try {
     const files = await fs.readdir(FOLDER_PATH);
     let hotelList: any[] = []
-    const _local: { name: string, url: string }[] = await readFile('local_hotel.json')
 
     await Promise.all(
       files.map(async (file) => {
-
-        const data = await readFile(`${FOLDER_PATH}/${file}`);
-
-        hotelList = [...data, ...hotelList]
-      
+        const data: any[] = await readFile(`${FOLDER_PATH}/${file}`);
+        hotelList = [...data.map(item => ({ ...item, "type": "ACCOMMODATION" })), ...hotelList]
       })
     );
 
-    const list = removeDuplicateOfList(hotelList, 'url').filter(item => item.around.length > 0)
+    const chunkSize = 100;
 
+    const chunks = []
 
-    const names = removeDuplicateOfList(list.map(item => getHotelNameFromUrl(item.url)))
+    for (let i = 0; i < hotelList.length; i += chunkSize) {
+      const chunk = hotelList.slice(i, i + chunkSize);
+      chunks.push(chunk)
+    }
 
-   const newhotelList =  _local.filter(item => !names.includes(item.name))
-
-
-    writeFile("local_hotel_2.json", newhotelList)
+    console.log("ds", chunks.length);
     
-    return list
+
+    // for (let index = 0; index < chunks.length; index++) {
+
+    //   const item = chunks[index]
+
+    //   await delay(2000)
+
+    //   await axios.post("http://103.11.198.219:3000/product-sample/batch", {
+    //     data: [...item]
+    //   }).then((data) => {
+
+    //     console.log("done", data.status, index, "/", chunks.length, "\n");
+
+    //   }).catch(err => {
+    //     console.log("err", err.response);
+    //   })
+
+    // }
 
 
+    var i = 1;                  //  set your counter to 1
+
+function myLoop() {         //  create a loop function
+  setTimeout(function() {   //  call a 3s setTimeout when the loop is called
+    console.log('hello');   //  your code here
+    i++;                    //  increment the counter
+    if (i < 10) {           //  if the counter < 10, call the loop function
+      myLoop();             //  ..  again which will trigger another 
+    }                       //  ..  setTimeout()
+  }, 3000)
+}
+
+myLoop(); 
+
+    const index = 0
+
+    const item = chunks[index]
+    await axios.post("http://103.11.198.219:3000/product-sample/batch", {
+      data: [...item]
+    }).then((data) => {
+
+      console.log("done", data.status, index, "/", chunks.length, "\n");
+
+    }).catch(err => {
+      console.log("err", err.response);
+    })
+
+
+    console.log("done");
+
+
+
+
+    return []
   } catch (err) {
     console.error(err);
   }
@@ -505,14 +552,14 @@ export const crawlAroundHotelError = async () => {
 export const removeDuplicateOfList = (data: any[], key?: string) => {
   if (!data || !data.length) return []
   const _data = data.filter((obj, index) => {
-      return index === data.findIndex((o) => {
-          if (key) {
-              return obj[key] === o[key]
-          }
-          else {
-              return obj === o
-          }
-      });
+    return index === data.findIndex((o) => {
+      if (key) {
+        return obj[key] === o[key]
+      }
+      else {
+        return obj === o
+      }
+    });
   });
 
   return _data
