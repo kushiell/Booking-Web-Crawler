@@ -8,6 +8,7 @@ import {
   removeDuplicateHotelList,
   removeLastErrorHotel,
   showResult,
+  statisticHotelInfo,
   total,
 } from "./util/helpers";
 import { craw } from "./service/page";
@@ -18,7 +19,8 @@ import { crawlHotelList } from "./service/vietnam";
 async function main() {
   // await craw();
   // crawlHotelList()
-  const hotelList = await getHotelListV2()
+  statisticHotelInfo()
+  // const hotelList = await getHotelListV2()
 
   
   // await crawlHotelError();

@@ -80,9 +80,14 @@ export const readFile = async (fileName: string, log?: boolean) => {
     const data = await fs.readFile(fileName, "utf8");
     const _data = JSON.parse(data);
     return _data;
-  } catch (error) {
+  } catch (error: any) {
+    if(error.name === "SyntaxError" && error.message.includes("Unexpected token")) {
+      console.log("_removed last hotel error_");
+      
+      await removeLastErrorHotel(fileName)
+    }
     if (log) {
-      console.error("[READ_FILE]", error);
+      console.error("[READ_FILE]", JSON.stringify(error.message));
       throw error;
     }
   }
@@ -153,9 +158,12 @@ export const isHotelCrawled = async (url: string) => {
   return fileData.indexOf(url) !== -1
 }
 
-export const markDataCrawled = async (data: Object) => {
-  let fileData: any[] = (await readFile(CRAWELD_HOTEL_URL_FILE_PATH)) || [];
+export const markDataCrawled = async (data: string) => {
+  let fileData: string[] = (await readFile(CRAWELD_HOTEL_URL_FILE_PATH)) || [];
 
+  if(fileData.includes(data)) return
+
+  console.log("__marked__: ", fileData.length);
   if (fileData?.length > 0) {
     fileData.push(data);
   } else {
@@ -373,7 +381,7 @@ export async function getUncrawlHotelList() {
 }
 
 export async function getHotelListV2() {
-  const FOLDER_PATH = 'data/crawl/hotel'
+  const FOLDER_PATH = 'data/crawl/craw'
   try {
     const files = await fs.readdir(FOLDER_PATH);
     let hotelList: any[] = []
@@ -455,7 +463,25 @@ myLoop();
   }
 }
 
+export const statisticHotelInfo = async() => {
+  const FOLDER_PATH = 'data/crawl/craw'
+  const files = await fs.readdir(FOLDER_PATH);
 
+    let datas: any[] = [];
+    await Promise.all(
+      files.map(async (file) => {
+        const data = await readFile(`${FOLDER_PATH}/${file}`);
+        datas = [...data, ...datas]
+      })
+    );
+
+    datas = removeDuplicateOfList( datas.map(item => getHotelNameFromUrl(item.url)))
+
+  await writeFile("data/crawl/crawled_hotel_url.json", datas)
+  console.log("imported", datas.length , " data");
+  
+
+}
 
 
 export async function hotelListInfo() {

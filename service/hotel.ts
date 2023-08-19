@@ -86,8 +86,6 @@ export const forwardHotelUrl = async (
   try {
     const room = await crawlService.hotelInfo(href);
 
-    console.log("hotel", room.name);
-
     await appendResultFile(room, destination);
     option?.onSuccess && (await option?.onSuccess?.());
   } catch (error: any) {
