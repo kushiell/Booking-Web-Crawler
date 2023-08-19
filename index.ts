@@ -8,6 +8,7 @@ import {
   removeDuplicateHotelList,
   removeLastErrorHotel,
   showResult,
+  statisticHotelInfo,
   total,
 } from "./util/helpers";
 import { craw } from "./service/page";

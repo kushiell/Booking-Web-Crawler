@@ -241,11 +241,13 @@ export const crawlHotelList = async () => {
                 if (isDataCrawled) return
                 return forwardHotelUrl(item.url, {
                     onFail: async (error, href) => {
-                        await appendErrorHotelDataToStore({ url: href, reason: error.name, name: item.name });
+                        console.log("_Fail_: ", start + index, "/", item.name,"/", error?.name);
+
+                        await appendErrorHotelDataToStore({ url: href, reason: error?.name, name: item.name });
                         await markDataCrawled(item.name)
                     },
                     onSuccess: async () => {
-                        console.log("Crawled: ", start + index, "/", data.length);
+                        console.log("\n_OK_: ", start + index, "/", data.length, "/",item.name, "\n");
                         await markDataCrawled(item.name)
                     }
                 }, HOTEL_FILE_PATH);
