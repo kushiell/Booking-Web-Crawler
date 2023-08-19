@@ -2,7 +2,7 @@ import {
   count,
   crawlAroundHotelError,
   crawlMediaHotelError,
-  getHotelListV2,
+  importHotelToServer,
   hotelListInfo,
   removeDuplicate,
   removeDuplicateHotelList,
@@ -18,7 +18,7 @@ import { crawlHotelList } from "./service/vietnam";
 async function main() {
   // await craw();
   // crawlHotelList()
-  const hotelList = await getHotelListV2()
+  const hotelList = await importHotelToServer()
 
   
   // await crawlHotelError();

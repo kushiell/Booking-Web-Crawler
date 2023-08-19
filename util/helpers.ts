@@ -372,8 +372,8 @@ export async function getUncrawlHotelList() {
   }
 }
 
-export async function getHotelListV2() {
-  const FOLDER_PATH = 'data/crawl/hotel'
+export async function importHotelToServer() {
+  const FOLDER_PATH = 'data/crawl/craw'
   try {
     const files = await fs.readdir(FOLDER_PATH);
     let hotelList: any[] = []
@@ -387,7 +387,7 @@ export async function getHotelListV2() {
 
     const chunkSize = 100;
 
-    const chunks = []
+    const chunks: any[] = []
 
     for (let i = 0; i < hotelList.length; i += chunkSize) {
       const chunk = hotelList.slice(i, i + chunkSize);
@@ -395,56 +395,39 @@ export async function getHotelListV2() {
     }
 
     console.log("ds", chunks.length);
-    
 
-    // for (let index = 0; index < chunks.length; index++) {
+    let i = 0;                  //  set your counter to 1
 
-    //   const item = chunks[index]
+    function myLoop() {         //  create a loop function
+      setTimeout(async function () {   //  call a 3s setTimeout when the loop is called
+        const index = i
 
-    //   await delay(2000)
+        console.log("start", i)
 
-    //   await axios.post("http://103.11.198.219:3000/product-sample/batch", {
-    //     data: [...item]
-    //   }).then((data) => {
+        const item = chunks[index]
+        await axios.post("http://103.11.198.219:3000/product-sample/batch", {
+          data: [...item]
+        }).then((data) => {
 
-    //     console.log("done", data.status, index, "/", chunks.length, "\n");
+          console.log("done", data.status, index, "/", chunks.length, "\n");
 
-    //   }).catch(err => {
-    //     console.log("err", err.response);
-    //   })
-
-    // }
-
-
-    var i = 1;                  //  set your counter to 1
-
-function myLoop() {         //  create a loop function
-  setTimeout(function() {   //  call a 3s setTimeout when the loop is called
-    console.log('hello');   //  your code here
-    i++;                    //  increment the counter
-    if (i < 10) {           //  if the counter < 10, call the loop function
-      myLoop();             //  ..  again which will trigger another 
-    }                       //  ..  setTimeout()
-  }, 3000)
-}
-
-myLoop(); 
-
-    const index = 0
-
-    const item = chunks[index]
-    await axios.post("http://103.11.198.219:3000/product-sample/batch", {
-      data: [...item]
-    }).then((data) => {
-
-      console.log("done", data.status, index, "/", chunks.length, "\n");
-
-    }).catch(err => {
-      console.log("err", err.response);
-    })
+        }).catch(err => {
+          console.log("err", err.response);
+        })
 
 
-    console.log("done");
+        i++;                    //  increment the counter
+        if (i < chunks.length) {           //  if the counter < 10, call the loop function
+          myLoop();             //  ..  again which will trigger another 
+        }                       //  ..  setTimeout()
+      }, 20000)
+    }
+
+    myLoop();
+
+
+
+    // console.log("done");
 
 
 
