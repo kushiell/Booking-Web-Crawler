@@ -490,28 +490,37 @@ export async function hotelListInfo() {
 
 
 export async function removeDuplicateHotelList() {
+  const path = 'data/crawl/craw'
   try {
-    const files = await fs.readdir(HOTEL_PREFIX.replace('/', ''));
-
-    console.log("total area: ", files.length);
+    const files = await fs.readdir(path);
 
     let hotelList: any[] = []
     await Promise.all(
       files.map(async (file) => {
-        const data: string[] = await readFile(`${HOTEL_PREFIX}${file}`);
+        const data: any[] = await readFile(`${path}/${file}`);
 
         const _data = data.filter((obj, index) => {
-          return index === data.findIndex((o) => obj === o);
+          return index === data.findIndex((o) => obj.url === o.url);
         });
 
-        console.log("before filter duplicated", file, data.length);
-        console.log("after filter duplicated", file, _data.length, "\n");
-
-        hotelList = [...hotelList, ...data]
+        hotelList = [...hotelList, ..._data]
 
       })
     );
 
+
+    console.log(hotelList.length);
+    const urls = removeDuplicateOfList( hotelList.map(item => getHotelNameFromUrl(item.url)))
+
+    const localHotel: any[] = await readFile('local_hotel_2.json')
+
+    const d =  localHotel.filter(item => !urls.includes(item.name) )
+
+    console.log(d);
+    
+
+    writeFile("local_hotel_3.json", d)
+    
     return hotelList
   } catch (err) {
     console.error(err);

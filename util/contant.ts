@@ -10,7 +10,7 @@ export const AREA_JSON = `${DATA_PREFIX}area.json`;
 export const AREA_CRAWLED_JSON = `${DATA_PREFIX}area_crawled.json`;
 
 export const HOTEL_ERROR_FILE_PATH = `${FILE_PREFIX}error.json`;
-export const HOTEL_FILE_PATH = `${FILE_PREFIX}hotel_v22.json`;
+export const HOTEL_FILE_PATH = `${FILE_PREFIX}hotel_v32.json`;
 export const CRAWELD_HOTEL_URL_FILE_PATH = `${FILE_PREFIX}crawled_hotel_url.json`;
 
 export const HOTEL_PREFIX = "hotel/";

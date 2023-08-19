@@ -18,8 +18,8 @@ import { crawlHotelList } from "./service/vietnam";
 
 async function main() {
   // await craw();
-  // crawlHotelList()
-  const hotelList = await importHotelToServer()
+  crawlHotelList()
+  // const hotelList = await importHotelToServer()
 
   
   // await crawlHotelError();
